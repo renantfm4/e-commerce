@@ -1,3 +1,4 @@
+"use client";
 import React, { useState } from "react";
 
 const Shipping = () => {
@@ -9,7 +10,7 @@ const Shipping = () => {
         onClick={() => setDropdown(!dropdown)}
         className="cursor-pointer flex items-center gap-2.5 font-medium text-lg text-dark py-5 px-5.5"
       >
-        Ship to a different address?
+        Enviar para um endereço diferente?
         <svg
           className={`fill-current ease-out duration-200 ${
             dropdown && "rotate-180"
@@ -29,19 +30,18 @@ const Shipping = () => {
         </svg>
       </div>
 
-      {/* <!-- dropdown menu --> */}
+      {/* <!-- menu dropdown --> */}
       <div className={`p-4 sm:p-8.5 ${dropdown ? "block" : "hidden"}`}>
         <div className="mb-5">
           <label htmlFor="countryName" className="block mb-2.5">
-            Country/ Region
-            <span className="text-red">*</span>
+            País/Região <span className="text-red">*</span>
           </label>
 
           <div className="relative">
             <select className="w-full bg-gray-1 rounded-md border border-gray-3 text-dark-4 py-3 pl-5 pr-9 duration-200 appearance-none outline-none focus:border-transparent focus:shadow-input focus:ring-2 focus:ring-blue/20">
-              <option value="0">Australia</option>
-              <option value="1">America</option>
-              <option value="2">England</option>
+              <option value="0">Brasil</option>
+              <option value="1">Estados Unidos</option>
+              <option value="2">Portugal</option>
             </select>
 
             <span className="absolute right-4 top-1/2 -translate-y-1/2 text-dark-4">
@@ -66,14 +66,13 @@ const Shipping = () => {
 
         <div className="mb-5">
           <label htmlFor="address" className="block mb-2.5">
-            Street Address
-            <span className="text-red">*</span>
+            Endereço <span className="text-red">*</span>
           </label>
 
           <input
             type="text"
             name="address"
-            placeholder="House number and street name"
+            placeholder="Número da casa e nome da rua"
             className="rounded-md border border-gray-3 bg-gray-1 placeholder:text-dark-5 w-full py-2.5 px-5 outline-none duration-200 focus:border-transparent focus:shadow-input focus:ring-2 focus:ring-blue/20"
           />
 
@@ -81,7 +80,7 @@ const Shipping = () => {
             <input
               type="text"
               name="address"
-              placeholder="Apartment, suite, unit, etc. (optional)"
+              placeholder="Apartamento, bloco, sala, etc. (opcional)"
               className="rounded-md border border-gray-3 bg-gray-1 placeholder:text-dark-5 w-full py-2.5 px-5 outline-none duration-200 focus:border-transparent focus:shadow-input focus:ring-2 focus:ring-blue/20"
             />
           </div>
@@ -89,7 +88,7 @@ const Shipping = () => {
 
         <div className="mb-5">
           <label htmlFor="town" className="block mb-2.5">
-            Town/ City <span className="text-red">*</span>
+            Cidade <span className="text-red">*</span>
           </label>
 
           <input
@@ -101,7 +100,7 @@ const Shipping = () => {
 
         <div className="mb-5">
           <label htmlFor="country" className="block mb-2.5">
-            Country
+            Estado
           </label>
 
           <input
@@ -113,7 +112,7 @@ const Shipping = () => {
 
         <div className="mb-5">
           <label htmlFor="phone" className="block mb-2.5">
-            Phone <span className="text-red">*</span>
+            Telefone <span className="text-red">*</span>
           </label>
 
           <input
@@ -125,7 +124,7 @@ const Shipping = () => {
 
         <div>
           <label htmlFor="email" className="block mb-2.5">
-            Email Address <span className="text-red">*</span>
+            Endereço de E-mail <span className="text-red">*</span>
           </label>
 
           <input

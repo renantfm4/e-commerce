@@ -25,9 +25,9 @@ const ShopWithSidebar = () => {
   };
 
   const options = [
-    { label: "Latest Products", value: "0" },
-    { label: "Best Selling", value: "1" },
-    { label: "Old Products", value: "2" },
+    { label: "Produtos Mais Recentes", value: "0" },
+    { label: "Mais Vendidos", value: "1" },
+    { label: "Produtos Antigos", value: "2" },
   ];
 
   const categories = [
@@ -37,7 +37,7 @@ const ShopWithSidebar = () => {
       isRefined: true,
     },
     {
-      name: "Laptop",
+      name: "Notebook",
       products: 12,
       isRefined: false,
     },
@@ -47,17 +47,17 @@ const ShopWithSidebar = () => {
       isRefined: false,
     },
     {
-      name: "UPS",
+      name: "No-break",
       products: 23,
       isRefined: false,
     },
     {
-      name: "Phone",
+      name: "Celular",
       products: 10,
       isRefined: false,
     },
     {
-      name: "Watch",
+      name: "Relógio",
       products: 13,
       isRefined: false,
     },
@@ -65,48 +65,48 @@ const ShopWithSidebar = () => {
 
   const genders = [
     {
-      name: "Men",
+      name: "Masculino",
       products: 10,
     },
     {
-      name: "Women",
+      name: "Feminino",
       products: 23,
     },
     {
-      name: "Unisex",
+      name: "Unissex",
       products: 8,
     },
   ];
 
-  useEffect(() => {
-    window.addEventListener("scroll", handleStickyMenu);
+useEffect(() => {
+  window.addEventListener("scroll", handleStickyMenu);
 
-    // closing sidebar while clicking outside
-    function handleClickOutside(event) {
-      if (!event.target.closest(".sidebar-content")) {
-        setProductSidebar(false);
-      }
+  // closing sidebar while clicking outside
+  function handleClickOutside(event) {
+    if (!event.target.closest(".sidebar-content")) {
+      setProductSidebar(false);
     }
+  }
 
-    if (productSidebar) {
-      document.addEventListener("mousedown", handleClickOutside);
-    }
+  if (productSidebar) {
+    document.addEventListener("mousedown", handleClickOutside);
+  }
 
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  });
+  return () => {
+    document.removeEventListener("mousedown", handleClickOutside);
+  };
+}, [productSidebar]);
 
   return (
     <>
       <Breadcrumb
-        title={"Explore All Products"}
-        pages={["shop", "/", "shop with sidebar"]}
+        title={"Explore Todos os Produtos"}
+        pages={["loja", "/", "loja com barra lateral"]}
       />
       <section className="overflow-hidden relative pb-20 pt-5 lg:pt-20 xl:pt-28 bg-[#f3f4f6]">
         <div className="max-w-[1170px] w-full mx-auto px-4 sm:px-8 xl:px-0">
           <div className="flex gap-7.5">
-            {/* <!-- Sidebar Start --> */}
+            {/* <!-- Barra Lateral Início --> */}
             <div
               className={`sidebar-content fixed xl:z-1 z-9999 left-0 top-0 xl:translate-x-0 xl:static max-w-[310px] xl:max-w-[270px] w-full ease-out duration-200 ${
                 productSidebar
@@ -116,7 +116,7 @@ const ShopWithSidebar = () => {
             >
               <button
                 onClick={() => setProductSidebar(!productSidebar)}
-                aria-label="button for product sidebar toggle"
+                aria-label="botão para abrir/fechar filtros"
                 className={`xl:hidden absolute -right-12.5 sm:-right-8 flex items-center justify-center w-8 h-8 rounded-md bg-white shadow-1 ${
                   stickyMenu
                     ? "lg:top-20 sm:top-34.5 top-35"
@@ -148,52 +148,52 @@ const ShopWithSidebar = () => {
 
               <form onSubmit={(e) => e.preventDefault()}>
                 <div className="flex flex-col gap-6">
-                  {/* <!-- filter box --> */}
+                  {/* <!-- caixa de filtros --> */}
                   <div className="bg-white shadow-1 rounded-lg py-4 px-5">
                     <div className="flex items-center justify-between">
-                      <p>Filters:</p>
-                      <button className="text-blue">Clean All</button>
+                      <p>Filtros:</p>
+                      <button className="text-blue">Limpar Todos</button>
                     </div>
                   </div>
 
-                  {/* <!-- category box --> */}
+                  {/* <!-- caixa de categorias --> */}
                   <CategoryDropdown categories={categories} />
 
-                  {/* <!-- gender box --> */}
+                  {/* <!-- caixa de gênero --> */}
                   <GenderDropdown genders={genders} />
 
-                  {/* // <!-- size box --> */}
+                  {/* <!-- caixa de tamanhos --> */}
                   <SizeDropdown />
 
-                  {/* // <!-- color box --> */}
+                  {/* <!-- caixa de cores --> */}
                   <ColorsDropdwon />
 
-                  {/* // <!-- price range box --> */}
+                  {/* <!-- caixa de faixa de preço --> */}
                   <PriceDropdown />
                 </div>
               </form>
             </div>
-            {/* // <!-- Sidebar End --> */}
+            {/* <!-- Barra Lateral Fim --> */}
 
-            {/* // <!-- Content Start --> */}
+            {/* <!-- Conteúdo Principal Início --> */}
             <div className="xl:max-w-[870px] w-full">
               <div className="rounded-lg bg-white shadow-1 pl-3 pr-2.5 py-2.5 mb-6">
                 <div className="flex items-center justify-between">
-                  {/* <!-- top bar left --> */}
+                  {/* <!-- barra superior esquerda --> */}
                   <div className="flex flex-wrap items-center gap-4">
                     <CustomSelect options={options} />
 
                     <p>
-                      Showing <span className="text-dark">9 of 50</span>{" "}
-                      Products
+                      Exibindo <span className="text-dark">9 de 50</span>{" "}
+                      Produtos
                     </p>
                   </div>
 
-                  {/* <!-- top bar right --> */}
+                  {/* <!-- barra superior direita --> */}
                   <div className="flex items-center gap-2.5">
                     <button
                       onClick={() => setProductStyle("grid")}
-                      aria-label="button for product grid tab"
+                      aria-label="botão para visualização em grade"
                       className={`${
                         productStyle === "grid"
                           ? "bg-blue border-blue text-white"
@@ -237,7 +237,7 @@ const ShopWithSidebar = () => {
 
                     <button
                       onClick={() => setProductStyle("list")}
-                      aria-label="button for product list tab"
+                      aria-label="botão para visualização em lista"
                       className={`${
                         productStyle === "list"
                           ? "bg-blue border-blue text-white"
@@ -270,7 +270,7 @@ const ShopWithSidebar = () => {
                 </div>
               </div>
 
-              {/* <!-- Products Grid Tab Content Start --> */}
+              {/* <!-- Conteúdo dos Produtos (Grade/Lista) Início --> */}
               <div
                 className={`${
                   productStyle === "grid"
@@ -286,19 +286,19 @@ const ShopWithSidebar = () => {
                   )
                 )}
               </div>
-              {/* <!-- Products Grid Tab Content End --> */}
+              {/* <!-- Conteúdo dos Produtos Fim --> */}
 
-              {/* <!-- Products Pagination Start --> */}
+              {/* <!-- Paginação Início --> */}
               <div className="flex justify-center mt-15">
                 <div className="bg-white shadow-1 rounded-md p-2">
                   <ul className="flex items-center">
                     <li>
                       <button
                         id="paginationLeft"
-                        aria-label="button for pagination left"
+                        aria-label="botão para página anterior"
                         type="button"
                         disabled
-                        className="flex items-center justify-center w-8 h-9 ease-out duration-200 rounded-[3px disabled:text-gray-4"
+                        className="flex items-center justify-center w-8 h-9 ease-out duration-200 rounded-[3px] disabled:text-gray-4"
                       >
                         <svg
                           className="fill-current"
@@ -381,8 +381,8 @@ const ShopWithSidebar = () => {
 
                     <li>
                       <button
-                        id="paginationLeft"
-                        aria-label="button for pagination left"
+                        id="paginationRight"
+                        aria-label="botão para próxima página"
                         type="button"
                         className="flex items-center justify-center w-8 h-9 ease-out duration-200 rounded-[3px] hover:text-white hover:bg-blue disabled:text-gray-4"
                       >
@@ -404,9 +404,9 @@ const ShopWithSidebar = () => {
                   </ul>
                 </div>
               </div>
-              {/* <!-- Products Pagination End --> */}
+              {/* <!-- Paginação Fim --> */}
             </div>
-            {/* // <!-- Content End --> */}
+            {/* <!-- Conteúdo Principal Fim --> */}
           </div>
         </div>
       </section>

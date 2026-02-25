@@ -19,7 +19,7 @@ const SingleItem = ({ item }: { item: Product }) => {
     dispatch(updateQuickView({ ...item }));
   };
 
-  // add to cart
+  // Adicionar
   const handleAddToCart = () => {
     dispatch(
       addItemToCart({
@@ -85,8 +85,8 @@ const SingleItem = ({ item }: { item: Product }) => {
           </h3>
 
           <span className="flex items-center justify-center gap-2 font-medium text-lg">
-            <span className="text-dark">${item.discountedPrice}</span>
-            <span className="text-dark-4 line-through">${item.price}</span>
+            <span className="text-dark">R$ {item.discountedPrice}</span>
+            <span className="text-dark-4 line-through">R$ {item.price}</span>
           </span>
         </div>
 
@@ -129,7 +129,7 @@ const SingleItem = ({ item }: { item: Product }) => {
 
           <button
             onClick={() => handleAddToCart()}
-            aria-label="button for add to cart"
+            aria-label="button for Adicionar"
             id="addCartOne"
             className="flex items-center justify-center w-9 h-9 rounded-[5px] shadow-1 ease-out duration-200 text-dark bg-white hover:text-white hover:bg-blue"
           >

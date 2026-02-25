@@ -32,7 +32,7 @@ const Categories = () => {
     <section className="overflow-hidden pt-17.5">
       <div className="max-w-[1170px] w-full mx-auto px-4 sm:px-8 xl:px-0 pb-15 border-b border-gray-3">
         <div className="swiper categories-carousel common-carousel">
-          {/* <!-- section title --> */}
+          {/* <!-- título da seção --> */}
           <div className="mb-10 flex items-center justify-between">
             <div>
               <span className="flex items-center gap-2.5 font-medium text-dark mb-1.5">
@@ -70,10 +70,10 @@ const Categories = () => {
                     </clipPath>
                   </defs>
                 </svg>
-                Categories
+                Categorias
               </span>
               <h2 className="font-semibold text-xl xl:text-heading-5 text-dark">
-                Browse by Category
+                Navegue por Categoria
               </h2>
             </div>
 
@@ -120,15 +120,14 @@ const Categories = () => {
             ref={sliderRef}
             slidesPerView={6}
             breakpoints={{
-              // when window width is >= 640px
+              // quando a janela tem largura >= 0px (mobile)
               0: {
                 slidesPerView: 2,
               },
               1000: {
                 slidesPerView: 4,
-                // spaceBetween: 4,
               },
-              // when window width is >= 768px
+              // quando a janela tem largura >= 1200px (desktop)
               1200: {
                 slidesPerView: 6,
               },

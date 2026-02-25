@@ -1,3 +1,4 @@
+"use client";
 import React from "react";
 import HeroCarousel from "./HeroCarousel";
 import HeroFeature from "./HeroFeature";
@@ -10,10 +11,10 @@ const Hero = () => {
         <div className="flex flex-wrap gap-5">
           <div className="xl:max-w-[757px] w-full">
             <div className="relative z-1 rounded-[10px] bg-white overflow-hidden">
-              {/* <!-- bg shapes --> */}
+              {/* <!-- formas de fundo --> */}
               <Image
                 src="/images/hero/hero-bg.png"
-                alt="hero bg shapes"
+                alt="formas de fundo do hero"
                 className="absolute right-0 bottom-0 -z-1"
                 width={534}
                 height={520}
@@ -34,14 +35,14 @@ const Hero = () => {
 
                     <div>
                       <p className="font-medium text-dark-4 text-custom-sm mb-1.5">
-                        limited time offer
+                        oferta por tempo limitado
                       </p>
                       <span className="flex items-center gap-3">
                         <span className="font-medium text-heading-5 text-red">
-                          $699
+                          R$ 3.499
                         </span>
                         <span className="font-medium text-2xl text-dark-4 line-through">
-                          $999
+                          R$ 4.999
                         </span>
                       </span>
                     </div>
@@ -50,30 +51,31 @@ const Hero = () => {
                   <div>
                     <Image
                       src="/images/hero/hero-02.png"
-                      alt="mobile image"
+                      alt="imagem do celular"
                       width={123}
                       height={161}
                     />
                   </div>
                 </div>
               </div>
+
               <div className="w-full relative rounded-[10px] bg-white p-4 sm:p-7.5">
                 <div className="flex items-center gap-14">
                   <div>
                     <h2 className="max-w-[153px] font-semibold text-dark text-xl mb-20">
-                      <a href="#"> Wireless Headphone </a>
+                      <a href="#"> Fone de Ouvido Sem Fio </a>
                     </h2>
 
                     <div>
                       <p className="font-medium text-dark-4 text-custom-sm mb-1.5">
-                        limited time offer
+                        oferta por tempo limitado
                       </p>
                       <span className="flex items-center gap-3">
                         <span className="font-medium text-heading-5 text-red">
-                          $699
+                          R$ 699
                         </span>
                         <span className="font-medium text-2xl text-dark-4 line-through">
-                          $999
+                          R$ 999
                         </span>
                       </span>
                     </div>
@@ -82,21 +84,19 @@ const Hero = () => {
                   <div>
                     <Image
                       src="/images/hero/hero-01.png"
-                      alt="mobile image"
+                      alt="imagem do fone de ouvido"
                       width={123}
                       height={161}
                     />
                   </div>
                 </div>
               </div>
-
-              
             </div>
           </div>
         </div>
       </div>
 
-      {/* <!-- Hero features --> */}
+      {/* <!-- Recursos do Hero --> */}
       <HeroFeature />
     </section>
   );

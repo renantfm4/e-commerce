@@ -1,3 +1,4 @@
+"use client";
 import { selectTotalPrice } from "@/redux/features/cart-slice";
 import { useAppSelector } from "@/redux/store";
 import React from "react";
@@ -9,24 +10,24 @@ const OrderSummary = () => {
 
   return (
     <div className="lg:max-w-[455px] w-full">
-      {/* <!-- order list box --> */}
+      {/* <!-- caixa de resumo do pedido --> */}
       <div className="bg-white shadow-1 rounded-[10px]">
         <div className="border-b border-gray-3 py-5 px-4 sm:px-8.5">
-          <h3 className="font-medium text-xl text-dark">Order Summary</h3>
+          <h3 className="font-medium text-xl text-dark">Resumo do Pedido</h3>
         </div>
 
         <div className="pt-2.5 pb-8.5 px-4 sm:px-8.5">
-          {/* <!-- title --> */}
+          {/* <!-- título --> */}
           <div className="flex items-center justify-between py-5 border-b border-gray-3">
             <div>
-              <h4 className="font-medium text-dark">Product</h4>
+              <h4 className="font-medium text-dark">Produto</h4>
             </div>
             <div>
               <h4 className="font-medium text-dark text-right">Subtotal</h4>
             </div>
           </div>
 
-          {/* <!-- product item --> */}
+          {/* <!-- item do produto --> */}
           {cartItems.map((item, key) => (
             <div key={key} className="flex items-center justify-between py-5 border-b border-gray-3">
               <div>
@@ -34,7 +35,7 @@ const OrderSummary = () => {
               </div>
               <div>
                 <p className="text-dark text-right">
-                  ${item.discountedPrice * item.quantity}
+                  R$ {(item.discountedPrice * item.quantity).toFixed(2).replace(".", ",")}
                 </p>
               </div>
             </div>
@@ -47,17 +48,17 @@ const OrderSummary = () => {
             </div>
             <div>
               <p className="font-medium text-lg text-dark text-right">
-                ${totalPrice}
+                R$ {totalPrice.toFixed(2).replace(".", ",")}
               </p>
             </div>
           </div>
 
-          {/* <!-- checkout button --> */}
+          {/* <!-- botão de finalizar compra --> */}
           <button
             type="submit"
             className="w-full flex justify-center font-medium text-white bg-blue py-3 px-6 rounded-md ease-out duration-200 hover:bg-blue-dark mt-7.5"
           >
-            Process to Checkout
+            Finalizar Compra
           </button>
         </div>
       </div>

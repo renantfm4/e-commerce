@@ -1,41 +1,41 @@
 const data = [
   {
-    title: "Televisions",
+    title: "Televisões",
     id: 1,
     img: "/images/categories/categories-01.png",
   },
   {
-    title: "Laptop & PC",
+    title: "Notebook & PC",
     id: 2,
     img: "/images/categories/categories-02.png",
   },
   {
-    title: "Mobile & Tablets",
+    title: "Celulares & Tablets",
     id: 3,
     img: "/images/categories/categories-03.png",
   },
   {
-    title: "Games & Videos",
+    title: "Games & Vídeos",
     id: 4,
     img: "/images/categories/categories-04.png",
   },
   {
-    title: "Home Appliances",
+    title: "Eletrodomésticos",
     id: 5,
     img: "/images/categories/categories-05.png",
   },
   {
-    title: "Health & Sports",
+    title: "Saúde & Esportes",
     id: 6,
     img: "/images/categories/categories-06.png",
   },
   {
-    title: "Watches",
+    title: "Relógios",
     id: 7,
     img: "/images/categories/categories-07.png",
   },
   {
-    title: "Televisions",
+    title: "Televisões",
     id: 8,
     img: "/images/categories/categories-04.png",
   },

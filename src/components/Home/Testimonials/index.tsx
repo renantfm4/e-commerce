@@ -27,20 +27,20 @@ const Testimonials = () => {
       <div className="max-w-[1170px] w-full mx-auto px-4 sm:px-8 xl:px-0">
         <div className="">
           <div className="swiper testimonial-carousel common-carousel p-5">
-            {/* <!-- section title --> */}
+            {/* <!-- título da seção --> */}
             <div className="mb-10 flex items-center justify-between">
               <div>
                 <span className="flex items-center gap-2.5 font-medium text-dark mb-1.5">
                   <Image
                     src="/images/icons/icon-08.svg"
-                    alt="icon"
+                    alt="ícone"
                     width={17}
                     height={17}
                   />
-                  Testimonials
+                  Feedbacks
                 </span>
                 <h2 className="font-semibold text-xl xl:text-heading-5 text-dark">
-                  User Feedbacks
+                  Opinião dos Usuários
                 </h2>
               </div>
 
@@ -88,15 +88,14 @@ const Testimonials = () => {
               slidesPerView={3}
               spaceBetween={20}
               breakpoints={{
-                // when window width is >= 640px
+                // quando a janela tem largura >= 0px (mobile)
                 0: {
                   slidesPerView: 1,
                 },
                 1000: {
                   slidesPerView: 2,
-                  // spaceBetween: 4,
                 },
-                // when window width is >= 768px
+                // quando a janela tem largura >= 1200px (desktop)
                 1200: {
                   slidesPerView: 3,
                 },

@@ -21,7 +21,7 @@ const ProductItem = ({ item }: { item: Product }) => {
     dispatch(updateQuickView({ ...item }));
   };
 
-  // add to cart
+  // Adicionar
   const handleAddToCart = () => {
     dispatch(
       addItemToCart({
@@ -87,7 +87,7 @@ const ProductItem = ({ item }: { item: Product }) => {
             onClick={() => handleAddToCart()}
             className="inline-flex font-medium text-custom-sm py-[7px] px-5 rounded-[5px] bg-blue text-white ease-out duration-200 hover:bg-blue-dark"
           >
-            Add to cart
+            Adicionar
           </button>
 
           <button
@@ -160,8 +160,8 @@ const ProductItem = ({ item }: { item: Product }) => {
       </h3>
 
       <span className="flex items-center gap-2 font-medium text-lg">
-        <span className="text-dark">${item.discountedPrice}</span>
-        <span className="text-dark-4 line-through">${item.price}</span>
+        <span className="text-dark">R$ {item.discountedPrice}</span>
+        <span className="text-dark-4 line-through">R$ {item.price}</span>
       </span>
     </div>
   );
