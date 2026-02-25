@@ -61,7 +61,7 @@ const SingleItem = ({ item }) => {
             </div>
 
             <div>
-              <h3 className="text-dark ease-out duration-200 hover:text-blue">
+              <h3 className="text-dark ease-out duration-200 hover:text-primary">
                 <a href="#"> {item.title} </a>
               </h3>
             </div>
@@ -105,7 +105,7 @@ const SingleItem = ({ item }) => {
       <div className="min-w-[150px] flex justify-end">
         <button
           onClick={() => handleAddToCart()}
-          className="inline-flex text-dark hover:text-white bg-gray-1 border border-gray-3 py-2.5 px-6 rounded-md ease-out duration-200 hover:bg-blue hover:border-gray-3"
+          className="inline-flex text-dark hover:text-white bg-gray-1 border border-gray-3 py-2.5 px-6 rounded-md ease-out duration-200 hover:bg-primary hover:border-gray-3"
         >
           Adicionar
         </button>

@@ -1,6 +1,9 @@
 import type { Config } from "tailwindcss";
+import defaultTheme from "tailwindcss/defaultTheme";
 
-const defaultTheme = require("tailwindcss/defaultTheme");
+// Importa as cores do JSON
+const shopConfig = require("./src/constants/shop.config.json");
+const c = shopConfig.shopColors;
 
 const config: Config = {
   content: [
@@ -21,82 +24,7 @@ const config: Config = {
         xl: "0",
       },
     },
-    colors: {
-      current: "currentColor",
-      transparent: "transparent",
-      white: "#FFFFFF",
-      body: "#6C6F93",
-      meta: {
-        DEFAULT: "#F7F9FC",
-        2: "#495270",
-        3: "#606882",
-        4: "#8D93A5",
-        5: "#BBBEC9",
-      },
-      dark: {
-        DEFAULT: "#1C274C",
-        2: "#495270",
-        3: "#606882",
-        4: "#8D93A5",
-        5: "#BBBEC9",
-      },
-      gray: {
-        DEFAULT: "#F3F5F6",
-        1: "#F9FAFB",
-        2: "#F3F4F6",
-        3: "#E5E7EB",
-        4: "#D1D5DB",
-        5: "#9CA3AF",
-        6: "#6B7280",
-        7: "#374151",
-      },
-      blue: {
-        DEFAULT: "#3C50E0",
-        dark: "#1C3FB7",
-        light: "#5475E5",
-        "light-2": "#8099EC",
-        "light-3": "#ADBCF2",
-        "light-4": "#C3CEF6",
-        "light-5": "#E1E8FF",
-      },
-      red: {
-        DEFAULT: "#F23030",
-        dark: "#E10E0E",
-        light: "#F56060",
-        "light-2": "#F89090",
-        "light-3": "#FBC0C0",
-        "light-4": "#FDD8D8",
-        "light-5": "#FEEBEB",
-        "light-6": "#FEF3F3",
-      },
-      green: {
-        DEFAULT: "#22AD5C",
-        dark: "#1A8245",
-        light: "#2CD673",
-        "light-2": "#57DE8F",
-        "light-3": "#82E6AC",
-        "light-4": "#ACEFC8",
-        "light-5": "#C2F3D6",
-        "light-6": "#DAF8E6",
-      },
-      yellow: {
-        DEFAULT: "#FBBF24",
-        dark: "#F59E0B",
-        "dark-2": "#D97706",
-        light: "#FCD34D",
-        "light-1": "#FDE68A",
-        "light-2": "#FEF3C7",
-        "light-4": "#FFFBEB",
-      },
-      teal: {
-        DEFAULT: "#02AAA4",
-        dark: "#06A09B",
-      },
-      orange: {
-        DEFAULT: "#F27430",
-        dark: "#E1580E",
-      },
-    },
+    colors: c,
     screens: {
       xsm: "375px",
       lsm: "425px",
@@ -241,10 +169,11 @@ const config: Config = {
           "0px 0px 1px 0px rgba(33, 37, 41, 0.08), 0px 2px 2px 0px rgba(33, 37, 41, 0.06)",
         filter: "0px 1px 0px 0px #E5E7EB",
         list: "1px 0px 0px 0px #E5E7EB",
-        input: "inset 0 0 0 2px #3C50E0",
+        input: "inset 0 0 0 2px #3C50E0", 
       },
     },
   },
   plugins: [],
 };
+
 export default config;

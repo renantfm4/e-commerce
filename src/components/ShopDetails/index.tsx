@@ -108,7 +108,7 @@ const ShopDetails = () => {
                       <button
                         onClick={handlePreviewSlider}
                         aria-label="button for zoom"
-                        className="gallery__Image w-11 h-11 rounded-[5px] bg-gray-1 shadow-1 flex items-center justify-center ease-out duration-200 text-dark hover:text-blue absolute top-4 lg:top-6 right-4 lg:right-6 z-50"
+                        className="gallery__Image w-11 h-11 rounded-[5px] bg-gray-1 shadow-1 flex items-center justify-center ease-out duration-200 text-dark hover:text-primary absolute top-4 lg:top-6 right-4 lg:right-6 z-50"
                       >
                         <svg
                           className="fill-current"
@@ -138,14 +138,14 @@ const ShopDetails = () => {
                     </div>
                   </div>
 
-                  {/* ?  &apos;border-blue &apos; :  &apos;border-transparent&apos; */}
+                  {/* ?  &apos;border-primary &apos; :  &apos;border-transparent&apos; */}
                   <div className="flex flex-wrap sm:flex-nowrap gap-4.5 mt-6">
                     {product.imgs?.thumbnails.map((item, key) => (
                       <button
                         onClick={() => setPreviewImg(key)}
                         key={key}
-                        className={`flex items-center justify-center w-15 sm:w-25 h-15 sm:h-25 overflow-hidden rounded-lg bg-gray-2 shadow-1 ease-out duration-200 border-2 hover:border-blue ${key === previewImg
-                          ? "border-blue"
+                        className={`flex items-center justify-center w-15 sm:w-25 h-15 sm:h-25 overflow-hidden rounded-lg bg-gray-2 shadow-1 ease-out duration-200 border-2 hover:border-primary ${key === previewImg
+                          ? "border-primary"
                           : "border-transparent"
                           }`}
                       >
@@ -167,7 +167,7 @@ const ShopDetails = () => {
                       {product.title}
                     </h2>
 
-                    <div className="inline-flex font-medium text-custom-sm text-white bg-blue rounded py-0.5 px-2.5">
+                    <div className="inline-flex font-medium text-custom-sm text-white bg-primary rounded py-0.5 px-2.5">
                       30% OFF
                     </div>
                   </div>
@@ -434,7 +434,7 @@ const ShopDetails = () => {
                                 {/*  */}
                                 <div
                                   className={`mr-2 flex h-4 w-4 items-center justify-center rounded border ${storage === item.id
-                                    ? "border-blue bg-blue"
+                                    ? "border-primary bg-primary"
                                     : "border-gray-4"
                                     } `}
                                 >
@@ -501,7 +501,7 @@ const ShopDetails = () => {
                                 {/*  */}
                                 <div
                                   className={`mr-2 flex h-4 w-4 items-center justify-center rounded border ${type === item.id
-                                    ? "border-blue bg-blue"
+                                    ? "border-primary bg-primary"
                                     : "border-gray-4"
                                     } `}
                                 >
@@ -568,7 +568,7 @@ const ShopDetails = () => {
                                 {/*  */}
                                 <div
                                   className={`mr-2 flex h-4 w-4 items-center justify-center rounded border ${sim === item.id
-                                    ? "border-blue bg-blue"
+                                    ? "border-primary bg-primary"
                                     : "border-gray-4"
                                     } `}
                                 >
@@ -615,7 +615,7 @@ const ShopDetails = () => {
                       <div className="flex items-center rounded-md border border-gray-3">
                         <button
                           aria-label="button for remove product"
-                          className="flex items-center justify-center w-12 h-12 ease-out duration-200 hover:text-blue"
+                          className="flex items-center justify-center w-12 h-12 ease-out duration-200 hover:text-primary"
                           onClick={() =>
                             quantity > 1 && setQuantity(quantity - 1)
                           }
@@ -642,7 +642,7 @@ const ShopDetails = () => {
                         <button
                           onClick={() => setQuantity(quantity + 1)}
                           aria-label="button for add product"
-                          className="flex items-center justify-center w-12 h-12 ease-out duration-200 hover:text-blue"
+                          className="flex items-center justify-center w-12 h-12 ease-out duration-200 hover:text-primary"
                         >
                           <svg
                             className="fill-current"
@@ -666,7 +666,7 @@ const ShopDetails = () => {
 
                       <a
                         href="#"
-                        className="inline-flex font-medium text-white bg-blue py-3 px-7 rounded-md ease-out duration-200 hover:bg-blue-dark"
+                        className="inline-flex font-medium text-white bg-primary py-3 px-7 rounded-md ease-out duration-200 hover:bg-primary-dark"
                       >
                         Purchase Now
                       </a>
@@ -706,8 +706,8 @@ const ShopDetails = () => {
                   <button
                     key={key}
                     onClick={() => setActiveTab(item.id)}
-                    className={`font-medium lg:text-lg ease-out duration-200 hover:text-blue relative before:h-0.5 before:bg-blue before:absolute before:left-0 before:bottom-0 before:ease-out before:duration-200 hover:before:w-full ${activeTab === item.id
-                      ? "text-blue before:w-full"
+                    className={`font-medium lg:text-lg ease-out duration-200 hover:text-primary relative before:h-0.5 before:bg-primary before:absolute before:left-0 before:bottom-0 before:ease-out before:duration-200 hover:before:w-full ${activeTab === item.id
+                      ? "text-primary before:w-full"
                       : "text-dark before:w-0"
                       }`}
                   >
@@ -1376,7 +1376,7 @@ const ShopDetails = () => {
                             id="comments"
                             rows={5}
                             placeholder="Your comments"
-                            className="rounded-md border border-gray-3 bg-gray-1 placeholder:text-dark-5 w-full p-5 outline-none duration-200 focus:border-transparent focus:shadow-input focus:ring-2 focus:ring-blue/20"
+                            className="rounded-md border border-gray-3 bg-gray-1 placeholder:text-dark-5 w-full p-5 outline-none duration-200 focus:border-transparent focus:shadow-input focus:ring-2 focus:ring-primary/20"
                           ></textarea>
 
                           <span className="flex items-center justify-between mt-2.5">
@@ -1400,7 +1400,7 @@ const ShopDetails = () => {
                               name="name"
                               id="name"
                               placeholder="Your name"
-                              className="rounded-md border border-gray-3 bg-gray-1 placeholder:text-dark-5 w-full py-2.5 px-5 outline-none duration-200 focus:border-transparent focus:shadow-input focus:ring-2 focus:ring-blue/20"
+                              className="rounded-md border border-gray-3 bg-gray-1 placeholder:text-dark-5 w-full py-2.5 px-5 outline-none duration-200 focus:border-transparent focus:shadow-input focus:ring-2 focus:ring-primary/20"
                             />
                           </div>
 
@@ -1414,14 +1414,14 @@ const ShopDetails = () => {
                               name="email"
                               id="email"
                               placeholder="Your email"
-                              className="rounded-md border border-gray-3 bg-gray-1 placeholder:text-dark-5 w-full py-2.5 px-5 outline-none duration-200 focus:border-transparent focus:shadow-input focus:ring-2 focus:ring-blue/20"
+                              className="rounded-md border border-gray-3 bg-gray-1 placeholder:text-dark-5 w-full py-2.5 px-5 outline-none duration-200 focus:border-transparent focus:shadow-input focus:ring-2 focus:ring-primary/20"
                             />
                           </div>
                         </div>
 
                         <button
                           type="submit"
-                          className="inline-flex font-medium text-white bg-blue py-3 px-7 rounded-md ease-out duration-200 hover:bg-blue-dark"
+                          className="inline-flex font-medium text-white bg-primary py-3 px-7 rounded-md ease-out duration-200 hover:bg-primary-dark"
                         >
                           Submit Reviews
                         </button>

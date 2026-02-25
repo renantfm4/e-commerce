@@ -47,7 +47,7 @@ const Checkout = () => {
                       id="notes"
                       rows={5}
                       placeholder="Observações sobre o seu pedido, ex.: instruções especiais para entrega."
-                      className="rounded-md border border-gray-3 bg-gray-1 placeholder:text-dark-5 w-full p-5 outline-none duration-200 focus:border-transparent focus:shadow-input focus:ring-2 focus:ring-blue/20"
+                      className="rounded-md border border-gray-3 bg-gray-1 placeholder:text-dark-5 w-full p-5 outline-none duration-200 focus:border-transparent focus:shadow-input focus:ring-2 focus:ring-primary/20"
                     ></textarea>
                   </div>
                 </div>
@@ -136,7 +136,7 @@ const Checkout = () => {
                 {/* <!-- botão de finalizar compra --> */}
                 <button
                   type="submit"
-                  className="w-full flex justify-center font-medium text-white bg-blue py-3 px-6 rounded-md ease-out duration-200 hover:bg-blue-dark mt-7.5"
+                  className="w-full flex justify-center font-medium text-white bg-primary py-3 px-6 rounded-md ease-out duration-200 hover:bg-primary-dark mt-7.5"
                 >
                   Finalizar Compra
                 </button>

@@ -29,14 +29,14 @@ const LatestPosts = ({ blogs }) => {
               </Link>
 
               <div>
-                <h3 className="text-dark leading-[22px] ease-out duration-200 mb-1.5 hover:text-blue">
+                <h3 className="text-dark leading-[22px] ease-out duration-200 mb-1.5 hover:text-primary">
                   <Link href="/blogs/blog-details-with-sidebar">{blog.title}</Link>
                 </h3>
 
                 <span className="flex items-center gap-3">
                   <a
                     href="#"
-                    className="text-custom-xs ease-out duration-200 hover:text-blue"
+                    className="text-custom-xs ease-out duration-200 hover:text-primary"
                   >
                     {blog.date}
                   </a>
@@ -46,7 +46,7 @@ const LatestPosts = ({ blogs }) => {
 
                   <a
                     href="#"
-                    className="text-custom-xs ease-out duration-200 hover:text-blue"
+                    className="text-custom-xs ease-out duration-200 hover:text-primary"
                   >
                     {blog.views}k Views
                   </a>

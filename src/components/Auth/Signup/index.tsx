@@ -98,7 +98,7 @@ const Signup = () => {
                     name="name"
                     id="name"
                     placeholder="Enter your full name"
-                    className="rounded-lg border border-gray-3 bg-gray-1 placeholder:text-dark-5 w-full py-3 px-5 outline-none duration-200 focus:border-transparent focus:shadow-input focus:ring-2 focus:ring-blue/20"
+                    className="rounded-lg border border-gray-3 bg-gray-1 placeholder:text-dark-5 w-full py-3 px-5 outline-none duration-200 focus:border-transparent focus:shadow-input focus:ring-2 focus:ring-primary/20"
                   />
                 </div>
 
@@ -112,7 +112,7 @@ const Signup = () => {
                     name="email"
                     id="email"
                     placeholder="Enter your email address"
-                    className="rounded-lg border border-gray-3 bg-gray-1 placeholder:text-dark-5 w-full py-3 px-5 outline-none duration-200 focus:border-transparent focus:shadow-input focus:ring-2 focus:ring-blue/20"
+                    className="rounded-lg border border-gray-3 bg-gray-1 placeholder:text-dark-5 w-full py-3 px-5 outline-none duration-200 focus:border-transparent focus:shadow-input focus:ring-2 focus:ring-primary/20"
                   />
                 </div>
 
@@ -127,7 +127,7 @@ const Signup = () => {
                     id="password"
                     placeholder="Enter your password"
                     autoComplete="on"
-                    className="rounded-lg border border-gray-3 bg-gray-1 placeholder:text-dark-5 w-full py-3 px-5 outline-none duration-200 focus:border-transparent focus:shadow-input focus:ring-2 focus:ring-blue/20"
+                    className="rounded-lg border border-gray-3 bg-gray-1 placeholder:text-dark-5 w-full py-3 px-5 outline-none duration-200 focus:border-transparent focus:shadow-input focus:ring-2 focus:ring-primary/20"
                   />
                 </div>
 
@@ -142,13 +142,13 @@ const Signup = () => {
                     id="re-type-password"
                     placeholder="Re-type your password"
                     autoComplete="on"
-                    className="rounded-lg border border-gray-3 bg-gray-1 placeholder:text-dark-5 w-full py-3 px-5 outline-none duration-200 focus:border-transparent focus:shadow-input focus:ring-2 focus:ring-blue/20"
+                    className="rounded-lg border border-gray-3 bg-gray-1 placeholder:text-dark-5 w-full py-3 px-5 outline-none duration-200 focus:border-transparent focus:shadow-input focus:ring-2 focus:ring-primary/20"
                   />
                 </div>
 
                 <button
                   type="submit"
-                  className="w-full flex justify-center font-medium text-white bg-dark py-3 px-6 rounded-lg ease-out duration-200 hover:bg-blue mt-7.5"
+                  className="w-full flex justify-center font-medium text-white bg-dark py-3 px-6 rounded-lg ease-out duration-200 hover:bg-primary mt-7.5"
                 >
                   Create Account
                 </button>
@@ -157,7 +157,7 @@ const Signup = () => {
                   Already have an account?
                   <Link
                     href="/signin"
-                    className="text-dark ease-out duration-200 hover:text-blue pl-2"
+                    className="text-dark ease-out duration-200 hover:text-primary pl-2"
                   >
                     Sign in Now
                   </Link>

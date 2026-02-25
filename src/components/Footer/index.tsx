@@ -91,7 +91,7 @@ const Footer = () => {
               <a
                 href="#"
                 aria-label="Facebook Social Link"
-                className="flex ease-out duration-200 hover:text-blue"
+                className="flex ease-out duration-200 hover:text-primary"
               >
                 <svg
                   className="fill-current"
@@ -116,7 +116,7 @@ const Footer = () => {
               <a
                 href="#"
                 aria-label="Twitter Social Link"
-                className="flex ease-out duration-200 hover:text-blue"
+                className="flex ease-out duration-200 hover:text-primary"
               >
                 <svg
                   className="fill-current"
@@ -136,7 +136,7 @@ const Footer = () => {
               <a
                 href="#"
                 aria-label="Instagram Social Link"
-                className="flex ease-out duration-200 hover:text-blue"
+                className="flex ease-out duration-200 hover:text-primary"
               >
                 <svg
                   className="fill-current"
@@ -171,7 +171,7 @@ const Footer = () => {
               <a
                 href="#"
                 aria-label="Linkedin Social Link"
-                className="flex ease-out duration-200 hover:text-blue"
+                className="flex ease-out duration-200 hover:text-primary"
               >
                 <svg
                   className="fill-current"
@@ -203,27 +203,27 @@ const Footer = () => {
 
             <ul className="flex flex-col gap-3.5">
               <li>
-                <a className="ease-out duration-200 hover:text-blue" href="#">
+                <a className="ease-out duration-200 hover:text-primary" href="#">
                   Minha Conta
                 </a>
               </li>
               <li>
-                <a className="ease-out duration-200 hover:text-blue" href="#">
+                <a className="ease-out duration-200 hover:text-primary" href="#">
                   Entrar / Cadastrar
                 </a>
               </li>
               <li>
-                <a className="ease-out duration-200 hover:text-blue" href="#">
+                <a className="ease-out duration-200 hover:text-primary" href="#">
                   Carrinho
                 </a>
               </li>
               <li>
-                <a className="ease-out duration-200 hover:text-blue" href="#">
+                <a className="ease-out duration-200 hover:text-primary" href="#">
                   Lista de Desejos
                 </a>
               </li>
               <li>
-                <a className="ease-out duration-200 hover:text-blue" href="#">
+                <a className="ease-out duration-200 hover:text-primary" href="#">
                   Loja
                 </a>
               </li>
@@ -237,27 +237,27 @@ const Footer = () => {
 
             <ul className="flex flex-col gap-3">
               <li>
-                <a className="ease-out duration-200 hover:text-blue" href="#">
+                <a className="ease-out duration-200 hover:text-primary" href="#">
                   Política de Privacidade
                 </a>
               </li>
               <li>
-                <a className="ease-out duration-200 hover:text-blue" href="#">
+                <a className="ease-out duration-200 hover:text-primary" href="#">
                   Política de Reembolso
                 </a>
               </li>
               <li>
-                <a className="ease-out duration-200 hover:text-blue" href="#">
+                <a className="ease-out duration-200 hover:text-primary" href="#">
                   Termos de Uso
                 </a>
               </li>
               <li>
-                <a className="ease-out duration-200 hover:text-blue" href="#">
+                <a className="ease-out duration-200 hover:text-primary" href="#">
                   Perguntas Frequentes
                 </a>
               </li>
               <li>
-                <a className="ease-out duration-200 hover:text-blue" href="#">
+                <a className="ease-out duration-200 hover:text-primary" href="#">
                   Contato
                 </a>
               </li>
@@ -304,7 +304,7 @@ const Footer = () => {
 
               <li>
                 <a
-                  className="inline-flex items-center gap-3 py-[9px] pl-4 pr-8.5 text-white rounded-md bg-blue ease-out duration-200 hover:bg-opacity-95"
+                  className="inline-flex items-center gap-3 py-[9px] pl-4 pr-8.5 text-white rounded-md bg-primary ease-out duration-200 hover:bg-opacity-95"
                   href="#"
                 >
                   <svg
