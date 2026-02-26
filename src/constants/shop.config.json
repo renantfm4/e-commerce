@@ -1,4 +1,10 @@
 {
+  "shopName": "Loja Exemplo",
+  "contact": {
+    "address": "Área Especial de Indústria Projeção A, Setor Leste, Gama",
+    "phone": "4002-8922",
+    "email": "suporte@exemplo.com"
+  },
   "shopColors": {
     "current": "currentColor",
     "transparent": "transparent",

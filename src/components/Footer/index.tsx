@@ -1,5 +1,10 @@
 import React from "react";
 import Image from "next/image";
+import shopConfig from "@/constants/shop.config.json";
+
+
+const contact = shopConfig.contact;
+const shopName = shopConfig.shopName;
 
 const Footer = () => {
   const year = new Date().getFullYear();
@@ -32,7 +37,7 @@ const Footer = () => {
                     />
                   </svg>
                 </span>
-                685 Market Street, Las Vegas, LA 95820, Estados Unidos.
+                {contact.address}
               </li>
 
               <li>
@@ -61,7 +66,7 @@ const Footer = () => {
                       fill="#3C50E0"
                     />
                   </svg>
-                  (+099) 532-786-9843
+                  {contact.phone}
                 </a>
               </li>
 
@@ -81,7 +86,7 @@ const Footer = () => {
                       fill="#3C50E0"
                     />
                   </svg>
-                  suporte@exemplo.com
+                 {contact.email}
                 </a>
               </li>
             </ul>
@@ -340,7 +345,7 @@ const Footer = () => {
         <div className="max-w-[1170px] mx-auto px-4 sm:px-8 xl:px-0">
           <div className="flex gap-5 flex-wrap items-center justify-between">
             <p className="text-dark font-medium">
-              © {year}. Todos os direitos reservados por PimjoLabs.
+              © {year}. Todos os direitos reservados por {shopName}.
             </p>
 
             <div className="flex flex-wrap items-center gap-4">

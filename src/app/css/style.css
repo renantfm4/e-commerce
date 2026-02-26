@@ -123,7 +123,7 @@ input[type='search']::-webkit-search-results-decoration {
 }
 
 .hero-carousel .swiper-pagination-bullet-active {
-  @apply w-5.5 bg-red;
+  @apply w-5.5 bg-primary;
 }
 
 .hero-carousel .swiper-pagination {

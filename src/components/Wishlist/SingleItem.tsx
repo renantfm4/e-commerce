@@ -70,7 +70,7 @@ const SingleItem = ({ item }) => {
       </div>
 
       <div className="min-w-[205px]">
-        <p className="text-dark">${item.discountedPrice}</p>
+        <p className="text-dark">R$ {item.discountedPrice}</p>
       </div>
 
       <div className="min-w-[265px]">
@@ -98,7 +98,7 @@ const SingleItem = ({ item }) => {
             />
           </svg>
 
-          <span className="text-red"> Out of Stock </span>
+          <span className="text-red"> Fora de Estoque </span>
         </div>
       </div>
 

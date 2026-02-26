@@ -9,38 +9,38 @@ export const Wishlist = () => {
 
   return (
     <>
-      <Breadcrumb title={"Wishlist"} pages={["Wishlist"]} />
+      <Breadcrumb title={"Lista de Desejos"} pages={["Lista de Desejos"]} />
       <section className="overflow-hidden py-20 bg-gray-2">
         <div className="max-w-[1170px] w-full mx-auto px-4 sm:px-8 xl:px-0">
           <div className="flex flex-wrap items-center justify-between gap-5 mb-7.5">
-            <h2 className="font-medium text-dark text-2xl">Your Wishlist</h2>
-            <button className="text-primary">Clear Wishlist Cart</button>
+            <h2 className="font-medium text-dark text-2xl">Sua Lista de Desejos</h2>
+            <button className="text-primary">Limpar Lista de Desejos</button>
           </div>
 
           <div className="bg-white rounded-[10px] shadow-1">
             <div className="w-full overflow-x-auto">
               <div className="min-w-[1170px]">
-                {/* <!-- table header --> */}
+                {/* <!-- cabeçalho da tabela --> */}
                 <div className="flex items-center py-5.5 px-10">
                   <div className="min-w-[83px]"></div>
                   <div className="min-w-[387px]">
-                    <p className="text-dark">Product</p>
+                    <p className="text-dark">Produto</p>
                   </div>
 
                   <div className="min-w-[205px]">
-                    <p className="text-dark">Unit Price</p>
+                    <p className="text-dark">Preço Unitário</p>
                   </div>
 
                   <div className="min-w-[265px]">
-                    <p className="text-dark">Stock Status</p>
+                    <p className="text-dark">Status do Estoque</p>
                   </div>
 
                   <div className="min-w-[150px]">
-                    <p className="text-dark text-right">Action</p>
+                    <p className="text-dark text-right">Ação</p>
                   </div>
                 </div>
 
-                {/* <!-- wish item --> */}
+                {/* <!-- itens da lista de desejos --> */}
                 {wishlistItems.map((item, key) => (
                   <SingleItem item={item} key={key} />
                 ))}
