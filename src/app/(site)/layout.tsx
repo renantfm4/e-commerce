@@ -16,11 +16,12 @@ import PreviewSliderModal from "@/components/Common/PreviewSlider";
 import ScrollToTop from "@/components/Common/ScrollToTop";
 import PreLoader from "@/components/Common/PreLoader";
 
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+import { Toaster } from "react-hot-toast";
+
+import { Bounce, ToastContainer } from 'react-toastify';
+
+
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
@@ -30,6 +31,8 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning={true}>
       <body>
+        <Toaster position="top-right" toastOptions={{ duration: 3000 }} />
+
         {loading ? (
           <PreLoader />
         ) : (
@@ -39,6 +42,19 @@ export default function RootLayout({
                 <ModalProvider>
                   <PreviewSliderProvider>
                     <Header />
+                    <ToastContainer
+                    position='top-center'
+                    autoClose={5000}
+                    hideProgressBar={false}
+                    newestOnTop
+                    closeOnClick={false}
+                    rtl={false}
+                    pauseOnFocusLoss
+                    draggable
+                    pauseOnHover
+                    theme='light'
+                    transition={Bounce}
+                  />
                     {children}
 
                     <QuickViewModal />
