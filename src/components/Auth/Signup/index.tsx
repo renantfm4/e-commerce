@@ -12,7 +12,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import {
   registerSchema,
   type RegisterFormData,
-} from "@/schemas/registerSchema";
+} from "../../../schemas/registerSchema";
 
 import { registerAction } from "../../../../actions/auth/register/register-action";
 

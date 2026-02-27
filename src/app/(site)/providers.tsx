@@ -2,9 +2,6 @@
 
 import { useState, useEffect } from "react";
 
-import "../css/euclid-circular-a-font.css";
-import "../css/style.css";
-
 import { ModalProvider } from "../context/QuickViewModalContext";
 import { CartModalProvider } from "../context/CartSidebarModalContext";
 import { ReduxProvider } from "@/redux/provider";
@@ -32,31 +29,23 @@ export default function SiteProviders({
     return () => clearTimeout(t);
   }, []);
 
-  if (loading) {
-    return <PreLoader />;
-  }
-
   return (
     <>
+      <ToastContainer
+        position="top-center"
+        autoClose={5000}
+        newestOnTop
+        pauseOnHover
+        draggable
+        theme="light"
+        transition={Bounce}
+      />
+
       <ReduxProvider>
         <CartModalProvider>
           <ModalProvider>
             <PreviewSliderProvider>
-              <ToastContainer
-                position="top-center"
-                autoClose={5000}
-                hideProgressBar={false}
-                newestOnTop
-                closeOnClick={false}
-                rtl={false}
-                pauseOnFocusLoss
-                draggable
-                pauseOnHover
-                theme="light"
-                transition={Bounce}
-              />
-
-              {children}
+              {loading ? <PreLoader /> : children}
 
               <QuickViewModal />
               <CartSidebarModal />

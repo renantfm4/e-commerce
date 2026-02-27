@@ -20,6 +20,10 @@
   }
 }
 
+.Toastify__toast-container {
+  z-index: 999999 !important;
+}
+
 @layer utilities {
   /* Chrome, Safari and Opera */
   .no-scrollbar::-webkit-scrollbar {

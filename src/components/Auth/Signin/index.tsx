@@ -9,7 +9,7 @@ import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 
-import { loginSchema, type LoginFormData } from "@/schemas/loginSchema";
+import { loginSchema, type LoginFormData } from "../../../schemas/loginSchema";
 import { loginAction } from "../../../../actions/auth/login/login-action";
 
 const Signin = () => {
