@@ -1,73 +1,20 @@
-"use client";
-import { useState, useEffect } from "react";
-import "../css/euclid-circular-a-font.css";
-import "../css/style.css";
-import Header from "../../components/Header";
-import Footer from "../../components/Footer";
+import HeaderServer from "@/components/Header/header-server";
+import Footer from "@/components/Footer";
+import SiteProviders from "./providers";
 
-import { ModalProvider } from "../context/QuickViewModalContext";
-import { CartModalProvider } from "../context/CartSidebarModalContext";
-import { ReduxProvider } from "@/redux/provider";
-import QuickViewModal from "@/components/Common/QuickViewModal";
-import CartSidebarModal from "@/components/Common/CartSidebarModal";
-import { PreviewSliderProvider } from "../context/PreviewSliderContext";
-import PreviewSliderModal from "@/components/Common/PreviewSlider";
-
-import ScrollToTop from "@/components/Common/ScrollToTop";
-import PreLoader from "@/components/Common/PreLoader";
-
-import { Toaster } from "react-hot-toast";
-
-import { Bounce, ToastContainer } from 'react-toastify';
-
-
-export default function RootLayout({ children }: { children: React.ReactNode }) {
-  const [loading, setLoading] = useState<boolean>(true);
-
-  useEffect(() => {
-    setTimeout(() => setLoading(false), 1000);
-  }, []);
-
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   return (
     <html lang="en" suppressHydrationWarning={true}>
       <body>
-        <Toaster position="top-right" toastOptions={{ duration: 3000 }} />
-
-        {loading ? (
-          <PreLoader />
-        ) : (
-          <>
-            <ReduxProvider>
-              <CartModalProvider>
-                <ModalProvider>
-                  <PreviewSliderProvider>
-                    <Header />
-                    <ToastContainer
-                    position='top-center'
-                    autoClose={5000}
-                    hideProgressBar={false}
-                    newestOnTop
-                    closeOnClick={false}
-                    rtl={false}
-                    pauseOnFocusLoss
-                    draggable
-                    pauseOnHover
-                    theme='light'
-                    transition={Bounce}
-                  />
-                    {children}
-
-                    <QuickViewModal />
-                    <CartSidebarModal />
-                    <PreviewSliderModal />
-                  </PreviewSliderProvider>
-                </ModalProvider>
-              </CartModalProvider>
-            </ReduxProvider>
-            <ScrollToTop />
-            <Footer />
-          </>
-        )}
+        <SiteProviders>
+          <HeaderServer />
+          {children}
+          <Footer />
+        </SiteProviders>
       </body>
     </html>
   );
