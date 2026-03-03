@@ -1,5 +1,5 @@
 import { cookies } from "next/headers";
-import HeaderClient from ".";
+import HeaderClient from "./index";
 
 export type AuthUser = {
   id: string;
@@ -7,15 +7,15 @@ export type AuthUser = {
   name?: string | null;
 };
 
-export default async function Header() {
+export default async function HeaderServer() {
   const cookieStore = await cookies();
-  const userCookie = cookieStore.get("auth_user")?.value;
+  const raw = cookieStore.get("auth_user")?.value;
 
   let user: AuthUser | null = null;
 
-  if (userCookie) {
+  if (raw) {
     try {
-      user = JSON.parse(userCookie) as AuthUser;
+      user = JSON.parse(raw);
     } catch {
       user = null;
     }

@@ -6,8 +6,16 @@ import Newsletter from "../Common/Newsletter";
 import RecentlyViewdItems from "./RecentlyViewd";
 import { usePreviewSlider } from "@/app/context/PreviewSliderContext";
 import { useAppSelector } from "@/redux/store";
+import shopData from "../Shop/shopData";
+import { notFound, useRouter } from "next/navigation";
+import { useParams } from "next/navigation";
+import { useProductDetails } from "@/app/context/ProductsDetailsContext";
 
 const ShopDetails = () => {
+
+  const { selectedProduct, clearSelectedProduct } = useProductDetails();
+  const router = useRouter();
+
   const [activeColor, setActiveColor] = useState("blue");
   const { openPreviewModal } = usePreviewSlider();
   const [previewImg, setPreviewImg] = useState(0);
@@ -18,6 +26,22 @@ const ShopDetails = () => {
   const [quantity, setQuantity] = useState(1);
 
   const [activeTab, setActiveTab] = useState("tabOne");
+
+ if (!selectedProduct) {
+    return (
+      <div className="text-center py-20">
+        <p>Nenhum produto selecionado.</p>
+        <button
+          onClick={() => router.push("/shop")}
+          className="mt-4 bg-primary text-white px-6 py-3 rounded hover:bg-primary-dark"
+        >
+          Voltar para a loja
+        </button>
+      </div>
+    );
+  }
+
+  const product = selectedProduct;
 
   const storages = [
     {
@@ -75,13 +99,6 @@ const ShopDetails = () => {
 
   const colors = ["red", "blue", "orange", "pink", "purple"];
 
-  const alreadyExist = localStorage.getItem("productDetails");
-  const productFromStorage = useAppSelector(
-    (state) => state.productDetailsReducer.value
-  );
-
-  const product = alreadyExist ? JSON.parse(alreadyExist) : productFromStorage;
-
   useEffect(() => {
     localStorage.setItem("productDetails", JSON.stringify(product));
   }, [product]);
@@ -93,7 +110,7 @@ const ShopDetails = () => {
 
   return (
     <>
-      <Breadcrumb title={"Shop Details"} pages={["shop details"]} />
+      <Breadcrumb title={"Detalhes do Produto"} pages={["shop details"]} />
 
       {product.title === "" ? (
         "Please add product"

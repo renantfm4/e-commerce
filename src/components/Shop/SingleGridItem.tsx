@@ -15,12 +15,10 @@ const SingleGridItem = ({ item }: { item: Product }) => {
 
   const dispatch = useDispatch<AppDispatch>();
 
-  // update the QuickView state
   const handleQuickViewUpdate = () => {
     dispatch(updateQuickView({ ...item }));
   };
 
-  // Adicionar
   const handleAddToCart = () => {
     dispatch(
       addItemToCart({
@@ -152,8 +150,8 @@ const SingleGridItem = ({ item }: { item: Product }) => {
       </h3>
 
       <span className="flex items-center gap-2 font-medium text-lg">
-        <span className="text-dark">${item.discountedPrice}</span>
-        <span className="text-dark-4 line-through">${item.price}</span>
+        <span className="text-dark">R$ {item.discountedPrice}</span>
+        <span className="text-dark-4 line-through">R$ {item.price}</span>
       </span>
     </div>
   );

@@ -14,4 +14,30 @@ model User {
   password  String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+
+  cart      Cart?
+}
+
+model Cart {
+  id        String     @id @default(auto()) @map("_id") @db.ObjectId
+  userId    String     @unique @db.ObjectId
+  user      User       @relation(fields: [userId], references: [id])
+  items     CartItem[]
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+}
+
+type CartItem {
+  id              Int
+  title           String
+  price           Float
+  discountedPrice Float
+  quantity        Int
+  variant         String?
+  imgs            CartImgs?
+}
+
+type CartImgs {
+  thumbnails String[]
+  previews   String[]
 }

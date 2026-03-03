@@ -2,54 +2,75 @@
 
 import { useState } from "react";
 
-const CategoryItem = ({ category }) => {
-  const [selected, setSelected] = useState(false);
-  return (
-    <button
-      className={`${
-        selected && "text-primary"
-      } group flex items-center justify-between ease-out duration-200 hover:text-primary `}
-      onClick={() => setSelected(!selected)}
-    >
-      <div className="flex items-center gap-2">
-        <div
-          className={`cursor-pointer flex items-center justify-center rounded w-4 h-4 border ${
-            selected ? "border-primary bg-primary" : "bg-white border-gray-3"
-          }`}
-        >
-          <svg
-            className={selected ? "block" : "hidden"}
-            width="10"
-            height="10"
-            viewBox="0 0 10 10"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              d="M8.33317 2.5L3.74984 7.08333L1.6665 5"
-              stroke="white"
-              strokeWidth="1.94437"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            />
-          </svg>
-        </div>
+interface Category {
+  name: string;
+  products: number;
+  isRefined?: boolean;
+}
 
-        <span>{category.name}</span>
+interface CategoryDropdownProps {
+  categories: Category[];
+  selectedCategories: string[];
+  onCategoryChange: (name: string) => void;
+}
+
+const CategoryItem = ({
+  category,
+  isSelected,
+  onClick,
+}: {
+  category: Category;
+  isSelected: boolean;
+  onClick: () => void;
+}) => (
+  <button
+    className={`${
+      isSelected ? "text-primary" : ""
+    } group flex items-center justify-between ease-out duration-200 hover:text-primary`}
+    onClick={onClick}
+  >
+    <div className="flex items-center gap-2">
+      <div
+        className={`cursor-pointer flex items-center justify-center rounded w-4 h-4 border ${
+          isSelected ? "border-primary bg-primary" : "bg-white border-gray-3"
+        }`}
+      >
+        <svg
+          className={isSelected ? "block" : "hidden"}
+          width="10"
+          height="10"
+          viewBox="0 0 10 10"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M8.33317 2.5L3.74984 7.08333L1.6665 5"
+            stroke="white"
+            strokeWidth="1.94437"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+        </svg>
       </div>
 
-      <span
-        className={`${
-          selected ? "text-white bg-primary" : "bg-gray-2"
-        } inline-flex rounded-[30px] text-custom-xs px-2 ease-out duration-200 group-hover:text-white group-hover:bg-primary`}
-      >
-        {category.products}
-      </span>
-    </button>
-  );
-};
+      <span>{category.name}</span>
+    </div>
 
-const CategoryDropdown = ({ categories }) => {
+    <span
+      className={`${
+        isSelected ? "text-white bg-primary" : "bg-gray-2"
+      } inline-flex rounded-[30px] text-custom-xs px-2 ease-out duration-200 group-hover:text-white group-hover:bg-primary`}
+    >
+      {category.products}
+    </span>
+  </button>
+);
+
+const CategoryDropdown = ({
+  categories,
+  selectedCategories,
+  onCategoryChange,
+}: CategoryDropdownProps) => {
   const [toggleDropdown, setToggleDropdown] = useState(true);
 
   return (
@@ -63,7 +84,7 @@ const CategoryDropdown = ({ categories }) => {
           toggleDropdown && "shadow-filter"
         }`}
       >
-        <p className="text-dark">Category</p>
+        <p className="text-dark">Categoria</p>
         <button
           aria-label="button for category dropdown"
           className={`text-dark ease-out duration-200 ${
@@ -88,15 +109,18 @@ const CategoryDropdown = ({ categories }) => {
         </button>
       </div>
 
-      {/* dropdown && 'shadow-filter */}
-      {/* <!-- dropdown menu --> */}
       <div
         className={`flex-col gap-3 py-6 pl-6 pr-5.5 ${
           toggleDropdown ? "flex" : "hidden"
         }`}
       >
-        {categories.map((category, key) => (
-          <CategoryItem key={key} category={category} />
+        {categories.map((category) => (
+          <CategoryItem
+            key={category.name}
+            category={category}
+            isSelected={selectedCategories.includes(category.name)}
+            onClick={() => onCategoryChange(category.name)}
+          />
         ))}
       </div>
     </div>

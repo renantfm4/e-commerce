@@ -10,9 +10,20 @@ import { updateproductDetails } from "@/redux/features/product-details";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "@/redux/store";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { useProductDetails } from "@/app/context/ProductsDetailsContext";
 
 const ProductItem = ({ item }: { item: Product }) => {
+
+  const router = useRouter();
+  const { setSelectedProduct } = useProductDetails();
+
   const { openModal } = useModalContext();
+
+  const handleViewDetails = () => {
+    setSelectedProduct(item);
+    router.push("/shop-details");
+  };
 
   const dispatch = useDispatch<AppDispatch>();
 
@@ -152,12 +163,15 @@ const ProductItem = ({ item }: { item: Product }) => {
         <p className="text-custom-sm">({item.reviews})</p>
       </div>
 
-      <h3
-        className="font-medium text-dark ease-out duration-200 hover:text-primary mb-1.5"
-        onClick={() => handleProductDetails()}
-      >
-        <Link href="/shop-details"> {item.title} </Link>
+      <h3 className="font-medium text-dark ease-out duration-200 hover:text-primary mb-1.5 cursor-pointer" onClick={handleViewDetails}>
+        {item.title}
       </h3>
+
+     {/* <h3 className="font-medium text-dark ease-out duration-200 hover:text-primary mb-1.5">
+      <Link href={`/shop-details/${item.id}`}>
+        {item.title}
+      </Link>
+    </h3> */}
 
       <span className="flex items-center gap-2 font-medium text-lg">
         <span className="text-dark">R$ {item.discountedPrice}</span>

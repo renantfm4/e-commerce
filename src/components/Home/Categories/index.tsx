@@ -1,16 +1,19 @@
 "use client";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { useCallback, useRef, useEffect } from "react";
+import { useRouter } from "next/navigation"; 
 import data from "./categoryData";
 import Image from "next/image";
+import { useCategoryFilter } from "@/app/context/CategoryFilterContext";
 
-// Import Swiper styles
 import "swiper/css/navigation";
 import "swiper/css";
 import SingleItem from "./SingleItem";
 
 const Categories = () => {
   const sliderRef = useRef(null);
+  const router = useRouter(); 
+  const { addCategories } = useCategoryFilter();
 
   const handlePrev = useCallback(() => {
     if (!sliderRef.current) return;
@@ -27,6 +30,11 @@ const Categories = () => {
       sliderRef.current.swiper.init();
     }
   }, []);
+
+  const handleCategoryClick = (categories: string[]) => {
+    addCategories(categories);
+    router.push("/shop-with-sidebar"); 
+  };
 
   return (
     <section className="overflow-hidden pt-17.5">
@@ -120,22 +128,17 @@ const Categories = () => {
             ref={sliderRef}
             slidesPerView={6}
             breakpoints={{
-              // quando a janela tem largura >= 0px (mobile)
-              0: {
-                slidesPerView: 2,
-              },
-              1000: {
-                slidesPerView: 4,
-              },
-              // quando a janela tem largura >= 1200px (desktop)
-              1200: {
-                slidesPerView: 6,
-              },
+              0: { slidesPerView: 2 },
+              1000: { slidesPerView: 4 },
+              1200: { slidesPerView: 6 },
             }}
           >
             {data.map((item, key) => (
               <SwiperSlide key={key}>
-                <SingleItem item={item} />
+                 <SingleItem 
+                  item={item} 
+                  onClick={() => handleCategoryClick(item.categories)}
+                />
               </SwiperSlide>
             ))}
           </Swiper>

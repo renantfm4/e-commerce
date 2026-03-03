@@ -22,6 +22,8 @@ const initialState: InitialState = {
   items: [],
 };
 
+
+
 export const cart = createSlice({
   name: "cart",
   initialState,
@@ -44,6 +46,11 @@ export const cart = createSlice({
         });
       }
     },
+
+    setCartItems: (state, action: PayloadAction<CartItem[]>) => {
+      state.items = action.payload;
+    },
+
     removeItemFromCart: (state, action: PayloadAction<number>) => {
       const itemId = action.payload;
       state.items = state.items.filter((item) => item.id !== itemId);
@@ -74,10 +81,13 @@ export const selectTotalPrice = createSelector([selectCartItems], (items) => {
   }, 0);
 });
 
+
+
 export const {
   addItemToCart,
   removeItemFromCart,
   updateCartItemQuantity,
   removeAllItemsFromCart,
+  setCartItems,
 } = cart.actions;
 export default cart.reducer;

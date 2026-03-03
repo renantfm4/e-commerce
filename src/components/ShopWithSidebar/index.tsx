@@ -9,12 +9,36 @@ import ColorsDropdwon from "./ColorsDropdwon";
 import PriceDropdown from "./PriceDropdown";
 import shopData from "../Shop/shopData";
 import SingleGridItem from "../Shop/SingleGridItem";
+import { useCategoryFilter } from "@/app/context/CategoryFilterContext";
 import SingleListItem from "../Shop/SingleListItem";
 
+interface PriceRange {
+  from: number;
+  to: number;
+}
+
 const ShopWithSidebar = () => {
-  const [productStyle, setProductStyle] = useState("grid");
+  const [productStyle, setProductStyle] = useState<"grid" | "list">("grid");
   const [productSidebar, setProductSidebar] = useState(false);
   const [stickyMenu, setStickyMenu] = useState(false);
+
+  const {
+    selectedCategories,
+    setSelectedCategories
+  } = useCategoryFilter();
+
+  const categories = Array.from(
+    new Set(shopData.map((product) => product.category))
+  ).map((category) => ({
+    name: category,
+    products: shopData.filter((p) => p.category === category).length,
+  }));
+
+  // Filtro de preço
+  const [selectedPrice, setSelectedPrice] = useState<PriceRange>({
+    from: 0,
+    to: 2000,
+  });
 
   const handleStickyMenu = () => {
     if (window.scrollY >= 80) {
@@ -30,72 +54,55 @@ const ShopWithSidebar = () => {
     { label: "Produtos Antigos", value: "2" },
   ];
 
-  const categories = [
-    {
-      name: "Desktop",
-      products: 10,
-      isRefined: true,
-    },
-    {
-      name: "Notebook",
-      products: 12,
-      isRefined: false,
-    },
-    {
-      name: "Monitor",
-      products: 30,
-      isRefined: false,
-    },
-    {
-      name: "No-break",
-      products: 23,
-      isRefined: false,
-    },
-    {
-      name: "Celular",
-      products: 10,
-      isRefined: false,
-    },
-    {
-      name: "Relógio",
-      products: 13,
-      isRefined: false,
-    },
-  ];
+  useEffect(() => {
+    window.addEventListener("scroll", handleStickyMenu);
 
-  const genders = [
-    {
-      name: "Masculino",
-      products: 10,
-    },
-    {
-      name: "Feminino",
-      products: 23,
-    },
-    {
-      name: "Unissex",
-      products: 8,
-    },
-  ];
-
-useEffect(() => {
-  window.addEventListener("scroll", handleStickyMenu);
-
-  // closing sidebar while clicking outside
-  function handleClickOutside(event) {
-    if (!event.target.closest(".sidebar-content")) {
-      setProductSidebar(false);
+    // closing sidebar while clicking outside
+    function handleClickOutside(event: MouseEvent) {
+      if (!(event.target as HTMLElement).closest(".sidebar-content")) {
+        setProductSidebar(false);
+      }
     }
-  }
 
-  if (productSidebar) {
-    document.addEventListener("mousedown", handleClickOutside);
-  }
+    if (productSidebar) {
+      document.addEventListener("mousedown", handleClickOutside);
+    }
 
-  return () => {
-    document.removeEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [productSidebar]);
+
+  // Função para toggle de categoria (agora usa o contexto diretamente)
+  const toggleCategory = (categoryName: string) => {
+    setSelectedCategories((prev) =>
+      prev.includes(categoryName)
+        ? prev.filter((c) => c !== categoryName)
+        : [...prev, categoryName]
+    );
   };
-}, [productSidebar]);
+
+  // Filtragem combinada: categoria + preço
+  const filteredProducts = shopData.filter((product) => {
+    // Filtro de categoria (direto do contexto)
+    const matchesCategory =
+      selectedCategories.length === 0 ||
+      selectedCategories.includes(product.category);
+
+    // Filtro de preço
+    const matchesPrice =
+      product.price >= selectedPrice.from &&
+      product.price <= selectedPrice.to;
+
+    return matchesCategory && matchesPrice;
+  });
+
+  // Limpar todos os filtros
+  const clearAllFilters = () => {
+    setSelectedCategories([]);
+    setSelectedPrice({ from: 0, to: 2000 });
+  };
+
 
   return (
     <>
@@ -152,24 +159,37 @@ useEffect(() => {
                   <div className="bg-white shadow-1 rounded-lg py-4 px-5">
                     <div className="flex items-center justify-between">
                       <p>Filtros:</p>
-                      <button className="text-primary">Limpar Todos</button>
+                      <button
+                        type="button"
+                        onClick={clearAllFilters}
+                        className="text-primary"
+                      >
+                        Limpar Todos
+                      </button>
                     </div>
                   </div>
 
                   {/* <!-- caixa de categorias --> */}
-                  <CategoryDropdown categories={categories} />
+                  <CategoryDropdown
+                    categories={categories}
+                    selectedCategories={selectedCategories}
+                    onCategoryChange={toggleCategory}
+                  />
 
                   {/* <!-- caixa de gênero --> */}
-                  <GenderDropdown genders={genders} />
+                  {/* <GenderDropdown genders={genders} /> */}
 
                   {/* <!-- caixa de tamanhos --> */}
-                  <SizeDropdown />
+                  {/* <SizeDropdown /> */}
 
                   {/* <!-- caixa de cores --> */}
-                  <ColorsDropdwon />
+                  {/* <ColorsDropdwon /> */}
 
                   {/* <!-- caixa de faixa de preço --> */}
-                  <PriceDropdown />
+                  <PriceDropdown
+                    value={selectedPrice}
+                    onChange={setSelectedPrice}
+                  />
                 </div>
               </form>
             </div>
@@ -184,7 +204,10 @@ useEffect(() => {
                     <CustomSelect options={options} />
 
                     <p>
-                      Exibindo <span className="text-dark">9 de 50</span>{" "}
+                      Exibindo{" "}
+                      <span className="text-dark">
+                        {filteredProducts.length} de {shopData.length}
+                      </span>{" "}
                       Produtos
                     </p>
                   </div>
@@ -217,19 +240,13 @@ useEffect(() => {
                         <path
                           fillRule="evenodd"
                           clipRule="evenodd"
-                          d="M13.086 9.5625C12.4121 9.56248 11.8502 9.56246 11.4041 9.62244C10.9333 9.68574 10.5082 9.82499 10.1666 10.1666C9.82499 10.5082 9.68574 10.9333 9.62244 11.4041C9.56246 11.8502 9.56248 12.4121 9.5625 13.086V13.164C9.56248 13.8379 9.56246 14.3998 9.62244 14.8459C9.68574 15.3167 9.82499 15.7418 10.1666 16.0834C10.5082 16.425 10.9333 16.5643 11.4041 16.6276C11.8502 16.6875 12.4121 16.6875 13.0859 16.6875H13.164C13.8378 16.6875 14.3998 16.6875 14.8459 16.6276C15.3167 16.5643 15.7418 16.425 16.0834 16.0834C16.425 15.7418 16.5643 15.3167 16.6276 14.8459C16.6875 14.3998 16.6875 13.8379 16.6875 13.1641V13.086C16.6875 12.4122 16.6875 11.8502 16.6276 11.4041C16.5643 10.9333 16.425 10.5082 16.0834 10.1666C15.7418 9.82499 15.3167 9.68574 14.8459 9.62244C14.3998 9.56246 13.8379 9.56248 13.164 9.5625H13.086ZM10.9621 10.9621C11.0598 10.8644 11.208 10.7839 11.554 10.7374C11.9163 10.6887 12.402 10.6875 13.125 10.6875C13.848 10.6875 14.3337 10.6887 14.696 10.7374C15.0421 10.7839 15.1902 10.8644 15.2879 10.9621C15.3857 11.0598 15.4661 11.208 15.5126 11.554C15.5613 11.9163 15.5625 12.402 15.5625 13.125C15.5625 13.848 15.5613 14.3337 15.5126 14.696C15.4661 15.0421 15.3857 15.1902 15.2879 15.2879C15.1902 15.3857 15.0421 15.4661 14.696 15.5126C14.3337 15.5613 13.848 15.5625 13.125 15.5625C12.402 15.5625 11.9163 15.5613 11.554 15.5126C11.208 15.4661 11.0598 15.3857 10.9621 15.2879C10.8644 15.1902 10.7839 15.0421 10.7374 14.696C10.6887 14.3337 10.6875 13.848 10.6875 13.125C10.6875 12.402 10.6887 11.9163 10.7374 11.554C10.7839 11.208 10.8644 11.0598 10.9621 10.9621Z"
+                          d="M13.086 9.5625C12.4121 9.56248 11.8502 9.56246 11.4041 9.62244C10.9333 9.68574 10.5082 9.82499 10.1666 10.1666C9.82499 10.5082 9.68574 10.9333 9.62244 11.4041C9.56246 11.8502 9.56248 12.4121 9.5625 13.086V13.164C9.56248 13.8379 9.56246 14.3998 9.62244 14.8459C9.68574 15.3167 9.82499 15.7418 10.1666 16.0834C10.5082 16.425 10.9333 16.5643 11.4041 16.6276C11.8502 16.6875 12.4121 16.6875 13.0859 16.6875H13.164C13.8378 16.6875 14.3998 16.6875 14.8459 16.6276C15.3167 16.5643 15.7418 16.425 16.0834 16.0834C16.425 15.7418 16.5643 15.3167 16.6276 14.8459C16.6875 14.3998 16.6875 13.8379 16.6875 13.1641V13.086C16.6875 12.4122 16.6875 11.8502 16.6276 11.4041C16.5643 10.9333 16.425 10.5082 16.0834 10.1666C15.7418 9.82499 15.6541 9.68574 14.8459 9.62244C14.3998 9.56246 13.8379 9.56248 13.164 9.5625H13.086ZM10.9621 10.9621C11.0598 10.8644 11.208 10.7839 11.554 10.7374C11.9163 10.6887 12.402 10.6875 13.125 10.6875C13.848 10.6875 14.3337 10.6887 14.696 10.7374C15.0421 10.7839 15.1902 10.8644 15.2879 10.9621C15.3857 11.0598 15.4661 11.208 15.5126 11.554C15.5613 11.9163 15.5625 12.402 15.5625 13.125C15.5625 13.848 15.5613 14.3337 15.5126 14.696C15.4661 15.0421 15.3857 15.1902 15.2879 15.2879C15.1902 15.3857 15.0421 15.4661 14.696 15.5126C14.3337 15.5613 13.848 15.5625 13.125 15.5625C12.402 15.5625 11.9163 15.5613 11.554 15.5126C11.208 15.4661 11.0598 15.3857 10.9621 15.2879C10.8644 15.1902 10.7839 15.0421 10.7374 14.696C10.6887 14.3337 10.6875 13.848 10.6875 13.125C10.6875 12.402 10.6887 11.9163 10.7374 11.554C10.7839 11.208 10.8644 11.0598 10.9621 10.9621Z"
                           fill=""
                         />
                         <path
                           fillRule="evenodd"
                           clipRule="evenodd"
                           d="M4.836 9.5625H4.914C5.58786 9.56248 6.14978 9.56246 6.59586 9.62244C7.06671 9.68574 7.49181 9.82499 7.83341 10.1666C8.17501 10.5082 8.31427 10.9333 8.37757 11.4041C8.43754 11.8502 8.43752 12.4121 8.4375 13.086V13.164C8.43752 13.8378 8.43754 14.3998 8.37757 14.8459C8.31427 15.3167 8.17501 15.7418 7.83341 16.0834C7.49181 16.425 7.06671 16.5643 6.59586 16.6276C6.14979 16.6875 5.58789 16.6875 4.91405 16.6875H4.83601C4.16217 16.6875 3.60022 16.6875 3.15414 16.6276C2.6833 16.5643 2.2582 16.425 1.91659 16.0834C1.57499 15.7418 1.43574 15.3167 1.37244 14.8459C1.31246 14.3998 1.31248 13.8379 1.3125 13.164V13.086C1.31248 12.4122 1.31246 11.8502 1.37244 11.4041C1.43574 10.9333 1.57499 10.5082 1.91659 10.1666C2.2582 9.82499 2.6833 9.68574 3.15414 9.62244C3.60023 9.56246 4.16214 9.56248 4.836 9.5625ZM3.30405 10.7374C2.95795 10.7839 2.80983 10.8644 2.71209 10.9621C2.61435 11.0598 2.53394 11.208 2.4874 11.554C2.4387 11.9163 2.4375 12.402 2.4375 13.125C2.4375 13.848 2.4387 14.3337 2.4874 14.696C2.53394 15.0421 2.61435 15.1902 2.71209 15.2879C2.80983 15.3857 2.95795 15.4661 3.30405 15.5126C3.66632 15.5613 4.15199 15.5625 4.875 15.5625C5.59801 15.5625 6.08368 15.5613 6.44596 15.5126C6.79205 15.4661 6.94018 15.3857 7.03791 15.2879C7.13565 15.1902 7.21607 15.0421 7.2626 14.696C7.31131 14.3337 7.3125 13.848 7.3125 13.125C7.3125 12.402 7.31131 11.9163 7.2626 11.554C7.21607 11.208 7.13565 11.0598 7.03791 10.9621C6.94018 10.8644 6.79205 10.7839 6.44596 10.7374C6.08368 10.6887 5.59801 10.6875 4.875 10.6875C4.15199 10.6875 3.66632 10.6887 3.30405 10.7374Z"
-                          fill=""
-                        />
-                        <path
-                          fillRule="evenodd"
-                          clipRule="evenodd"
-                          d="M13.086 1.3125C12.4122 1.31248 11.8502 1.31246 11.4041 1.37244C10.9333 1.43574 10.5082 1.57499 10.1666 1.91659C9.82499 2.2582 9.68574 2.6833 9.62244 3.15414C9.56246 3.60023 9.56248 4.16214 9.5625 4.836V4.914C9.56248 5.58786 9.56246 6.14978 9.62244 6.59586C9.68574 7.06671 9.82499 7.49181 10.1666 7.83341C10.5082 8.17501 10.9333 8.31427 11.4041 8.37757C11.8502 8.43754 12.4121 8.43752 13.086 8.4375H13.164C13.8378 8.43752 14.3998 8.43754 14.8459 8.37757C15.3167 8.31427 15.7418 8.17501 16.0834 7.83341C16.425 7.49181 16.5643 7.06671 16.6276 6.59586C16.6875 6.14978 16.6875 5.58787 16.6875 4.91402V4.83601C16.6875 4.16216 16.6875 3.60022 16.6276 3.15414C16.5643 2.6833 16.425 2.2582 16.0834 1.91659C15.7418 1.57499 15.3167 1.43574 14.8459 1.37244C14.3998 1.31246 13.8379 1.31248 13.164 1.3125H13.086ZM10.9621 2.71209C11.0598 2.61435 11.208 2.53394 11.554 2.4874C11.9163 2.4387 12.402 2.4375 13.125 2.4375C13.848 2.4375 14.3337 2.4387 14.696 2.4874C15.0421 2.53394 15.1902 2.61435 15.2879 2.71209C15.3857 2.80983 15.4661 2.95795 15.5126 3.30405C15.5613 3.66632 15.5625 4.15199 15.5625 4.875C15.5625 5.59801 15.5613 6.08368 15.5126 6.44596C15.4661 6.79205 15.3857 6.94018 15.2879 7.03791C15.1902 7.13565 15.0421 7.21607 14.696 7.2626C14.3337 7.31131 13.848 7.3125 13.125 7.3125C12.402 7.3125 11.9163 7.31131 11.554 7.2626C11.208 7.21607 11.0598 7.13565 10.9621 7.03791C10.8644 6.94018 10.7839 6.79205 10.7374 6.44596C10.6887 6.08368 10.6875 5.59801 10.6875 4.875C10.6875 4.15199 10.6887 3.66632 10.7374 3.30405C10.7839 2.95795 10.8644 2.80983 10.9621 2.71209Z"
                           fill=""
                         />
                       </svg>
@@ -278,7 +295,7 @@ useEffect(() => {
                     : "flex flex-col gap-7.5"
                 }`}
               >
-                {shopData.map((item, key) =>
+                {filteredProducts.map((item, key) =>
                   productStyle === "grid" ? (
                     <SingleGridItem item={item} key={key} />
                   ) : (
