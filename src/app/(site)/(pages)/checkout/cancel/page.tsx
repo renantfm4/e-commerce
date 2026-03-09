@@ -1,21 +1,16 @@
-"use client";
+import CheckoutCancelClient from "@/components/Checkout/CheckoutCancel";
 
-import { useSearchParams } from "next/navigation";
+import { Metadata } from "next";
 
-export default function CheckoutCancelPage() {
-  const searchParams = useSearchParams();
+export const metadata: Metadata = {
+  title: "Cancelado | NextCommerce",
+  description: "Pagamento cancelado",
+};
 
-  const reason = searchParams.get("reason");
-
+export default function CancelPage() {
   return (
-    <div style={{ padding: 40 }}>
-      <h1>Checkout cancelado</h1>
-
-      <p>
-        Motivo: <strong>{reason || "desconhecido"}</strong>
-      </p>
-
-      <a href="/checkout">Voltar</a>
-    </div>
+    <main>
+      <CheckoutCancelClient />
+    </main>
   );
 }

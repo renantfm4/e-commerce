@@ -18,6 +18,8 @@ import { logoutAction } from "../../../actions/auth/login/logout-action";
 import { setUser, clearUser } from "../../../stores/user-store";
 
 import CartPersist from "@/components/Common/CartPersist";
+import SigninModal from "../Auth/Signin/SignInModal";
+import SignupModal from "../Auth/Signup/SignUpModal";
 
 type Props = {
   user: AuthUser | null;
@@ -29,6 +31,10 @@ const HeaderClient = ({ user }: Props) => {
   const [searchQuery, setSearchQuery] = useState("");
   const [navigationOpen, setNavigationOpen] = useState(false);
   const [stickyMenu, setStickyMenu] = useState(false);
+
+  const [signinOpen, setSigninOpen] = useState(false);
+  const [signupOpen, setSignupOpen] = useState(false);
+
   const { openCartModal } = useCartModalContext();
 
   const product = useAppSelector((state) => state.cartReducer.items);
@@ -37,7 +43,6 @@ const HeaderClient = ({ user }: Props) => {
   const [accountOpen, setAccountOpen] = useState(false);
   const accountRef = useRef<HTMLDivElement | null>(null);
 
-  //  seta user no redux assim que o header carregar
   useEffect(() => {
     if (user?.id && user.email) {
       dispatch(
@@ -45,7 +50,7 @@ const HeaderClient = ({ user }: Props) => {
           id: user.id,
           email: user.email,
           name: user.name ?? null,
-        })
+        }),
       );
     } else {
       dispatch(clearUser());
@@ -94,8 +99,8 @@ const HeaderClient = ({ user }: Props) => {
   const accountLabel = user?.name?.trim()
     ? user.name
     : user?.email
-    ? user.email
-    : "LOGAR";
+      ? user.email
+      : "LOGAR";
 
   return (
     <>
@@ -107,13 +112,11 @@ const HeaderClient = ({ user }: Props) => {
         }`}
       >
         <div className="max-w-[1170px] mx-auto px-4 sm:px-7.5 xl:px-0">
-          {/* <!-- header top start --> */}
           <div
             className={`flex flex-col lg:flex-row gap-5 items-end lg:items-center xl:justify-between ease-out duration-200 ${
               stickyMenu ? "py-4" : "py-6"
             }`}
           >
-            {/* <!-- header top left --> */}
             <div className="xl:w-auto flex-col sm:flex-row w-full flex sm:justify-between sm:items-center gap-5 sm:gap-10">
               <Link className="flex-shrink-0" href="/">
                 <Image
@@ -130,7 +133,6 @@ const HeaderClient = ({ user }: Props) => {
                     <CustomSelect options={options} />
 
                     <div className="relative max-w-[333px] sm:min-w-[333px] w-full">
-                      {/* <!-- divider --> */}
                       <span className="absolute left-0 top-1/2 -translate-y-1/2 inline-block w-px h-5.5 bg-gray-4"></span>
                       <input
                         onChange={(e) => setSearchQuery(e.target.value)}
@@ -169,7 +171,6 @@ const HeaderClient = ({ user }: Props) => {
               </div>
             </div>
 
-            {/* <!-- header top right --> */}
             <div className="flex w-full lg:w-auto items-center gap-7.5">
               <div className="hidden xl:flex items-center gap-3.5">
                 <svg
@@ -207,12 +208,10 @@ const HeaderClient = ({ user }: Props) => {
                 </div>
               </div>
 
-              {/* <!-- divider --> */}
               <span className="hidden xl:block w-px h-7.5 bg-gray-4"></span>
 
               <div className="flex w-full lg:w-auto justify-between items-center gap-5">
                 <div className="flex items-center gap-5">
-                  {/* ✅ CONTA + SUBMENU */}
                   <div className="relative" ref={accountRef}>
                     <button
                       type="button"
@@ -254,21 +253,27 @@ const HeaderClient = ({ user }: Props) => {
                       <div className="absolute right-0 mt-3 w-56 rounded-lg border border-gray-3 bg-white shadow-lg p-2 z-50">
                         {!user ? (
                           <div className="flex flex-col gap-2">
-                            <Link
-                              href="/signin"
+                            <button
+                              type="button"
                               className="w-full text-center rounded-md bg-dark text-white py-2 px-3 hover:bg-primary transition"
-                              onClick={() => setAccountOpen(false)}
+                              onClick={() => {
+                                setAccountOpen(false);
+                                setSigninOpen(true);
+                              }}
                             >
                               Entrar
-                            </Link>
+                            </button>
 
-                            <Link
-                              href="/signup"
+                            <button
+                              type="button"
                               className="w-full text-center rounded-md border border-gray-3 bg-gray-1 py-2 px-3 hover:bg-gray-2 transition"
-                              onClick={() => setAccountOpen(false)}
+                              onClick={() => {
+                                setAccountOpen(false);
+                                setSignupOpen(true);
+                              }}
                             >
                               Cadastrar
-                            </Link>
+                            </button>
                           </div>
                         ) : (
                           <div className="flex flex-col gap-2">
@@ -276,7 +281,9 @@ const HeaderClient = ({ user }: Props) => {
                               <p className="text-sm font-medium text-dark">
                                 {user.name || "Usuário"}
                               </p>
-                              <p className="text-xs text-dark-4">{user.email}</p>
+                              <p className="text-xs text-dark-4">
+                                {user.email}
+                              </p>
                             </div>
 
                             <button
@@ -284,11 +291,8 @@ const HeaderClient = ({ user }: Props) => {
                               className="w-full text-center rounded-md bg-dark text-white py-2 px-3 hover:bg-primary transition"
                               onClick={async () => {
                                 await logoutAction();
-
-                                // ✅ limpa redux
                                 dispatch(removeAllItemsFromCart());
                                 dispatch(clearUser());
-
                                 setAccountOpen(false);
                                 window.location.href = "/";
                               }}
@@ -354,7 +358,6 @@ const HeaderClient = ({ user }: Props) => {
                   </button>
                 </div>
 
-                {/* <!-- Hamburger Toggle BTN --> */}
                 <button
                   id="Toggle"
                   aria-label="Toggler"
@@ -395,24 +398,20 @@ const HeaderClient = ({ user }: Props) => {
                     </span>
                   </span>
                 </button>
-                {/* <!-- Hamburger Toggle BTN --> */}
               </div>
             </div>
           </div>
-          {/* <!-- header top end --> */}
         </div>
 
         <div className="border-t border-gray-3">
           <div className="max-w-[1170px] mx-auto px-4 sm:px-7.5 xl:px-0">
             <div className="flex items-center justify-between">
-              {/* <!--=== Main Nav Start ===--> */}
               <div
                 className={`w-[288px] absolute right-4 top-full xl:static xl:w-auto h-0 xl:h-auto invisible xl:visible xl:flex items-center justify-between ${
                   navigationOpen &&
                   `!visible bg-white shadow-lg border border-gray-3 !h-auto max-h-[400px] overflow-y-scroll rounded-md p-5`
                 }`}
               >
-                {/* <!-- Main Nav Start --> */}
                 <nav>
                   <ul className="flex xl:items-center flex-col xl:flex-row gap-5 xl:gap-6">
                     {menuData.map((menuItem, i) =>
@@ -436,15 +435,12 @@ const HeaderClient = ({ user }: Props) => {
                             {menuItem.title}
                           </Link>
                         </li>
-                      )
+                      ),
                     )}
                   </ul>
                 </nav>
-                {/* <!-- Main Nav End --> */}
               </div>
-              {/* <!--=== Main Nav End ===--> */}
 
-              {/* <!--=== Nav Right Start ===--> */}
               <div className="hidden xl:block">
                 <ul className="flex items-center gap-5.5">
                   <li className="py-4">
@@ -496,11 +492,22 @@ const HeaderClient = ({ user }: Props) => {
                   </li>
                 </ul>
               </div>
-              {/* <!--=== Nav Right End ===--> */}
             </div>
           </div>
         </div>
       </header>
+
+      <SigninModal
+        open={signinOpen}
+        onOpenChange={setSigninOpen}
+        onOpenSignup={() => setSignupOpen(true)}
+      />
+
+      <SignupModal
+        open={signupOpen}
+        onOpenChange={setSignupOpen}
+        onOpenSignin={() => setSigninOpen(true)}
+      />
     </>
   );
 };
