@@ -1,10 +1,13 @@
 import React from "react";
 import Checkout from "@/components/Checkout";
+import shopConfig from "@/constants/shop.config.json";
+
+const shopName = shopConfig.shopName;
 
 import { Metadata } from "next";
 export const metadata: Metadata = {
-  title: "Checkout Page | NextCommerce Nextjs E-commerce template",
-  description: "This is Checkout Page for NextCommerce Template",
+  title: `${shopName} | Página de Checkout`,
+  description: `Essa é a página de checkout para o template ${shopName}`,
   // other metadata
 };
 

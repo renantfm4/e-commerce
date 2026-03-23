@@ -1,10 +1,13 @@
 import React from "react";
 import { Wishlist } from "@/components/Wishlist";
 import { Metadata } from "next";
+import shopConfig from "@/constants/shop.config.json";
+
+const shopName = shopConfig.shopName;
 
 export const metadata: Metadata = {
-  title: "Wishlist Page | NextCommerce Nextjs E-commerce template",
-  description: "This is Wishlist Page for NextCommerce Template",
+  title: `${shopName} | Lista de Desejos`,
+  description: `Esta é a página da lista de desejos para o template ${shopName}`,
   // other metadata
 };
 

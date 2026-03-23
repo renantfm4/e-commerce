@@ -1,10 +1,13 @@
 import React from "react";
 import Error from "@/components/Error";
+import shopConfig from "@/constants/shop.config.json";
+
+const shopName = shopConfig.shopName;
 
 import { Metadata } from "next";
 export const metadata: Metadata = {
-  title: "Error Page | NextCommerce Nextjs E-commerce template",
-  description: "This is Error Page for NextCommerce Template",
+  title: `${shopName} | Página de Erro`,
+  description: `Essa é a página de erro para o template ${shopName}`,
   // other metadata
 };
 

@@ -5,38 +5,17 @@ import { useModalContext } from "@/app/context/QuickViewModalContext";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "@/redux/store";
 import { updateQuickView } from "@/redux/features/quickView-slice";
-import { addItemToCart } from "@/redux/features/cart-slice";
 import Image from "next/image";
 import Link from "next/link";
-import { addItemToWishlist } from "@/redux/features/wishlist-slice";
+import { useProductActions } from "@/hooks/useProductActions";
 
 const SingleItem = ({ item }: { item: Product }) => {
   const { openModal } = useModalContext();
   const dispatch = useDispatch<AppDispatch>();
+  const { handleAddToCart, handleAddToWishList } = useProductActions();
 
-  // update the QuickView state
   const handleQuickViewUpdate = () => {
     dispatch(updateQuickView({ ...item }));
-  };
-
-  // Adicionar
-  const handleAddToCart = () => {
-    dispatch(
-      addItemToCart({
-        ...item,
-        quantity: 1,
-      })
-    );
-  };
-
-  const handleItemToWishList = () => {
-    dispatch(
-      addItemToWishlist({
-        ...item,
-        status: "available",
-        quantity: 1,
-      })
-    );
   };
 
   return (
@@ -81,7 +60,7 @@ const SingleItem = ({ item }: { item: Product }) => {
           </div>
 
           <h3 className="font-medium text-dark ease-out duration-200 hover:text-primary mb-1.5">
-            <Link href="/shop-details"> {item.title} </Link>
+            <Link href="/shop-details">{item.title}</Link>
           </h3>
 
           <span className="flex items-center justify-center gap-2 font-medium text-lg">
@@ -128,7 +107,7 @@ const SingleItem = ({ item }: { item: Product }) => {
           </button>
 
           <button
-            onClick={() => handleAddToCart()}
+            onClick={() => handleAddToCart(item)}
             aria-label="button for Adicionar"
             id="addCartOne"
             className="flex items-center justify-center w-9 h-9 rounded-[5px] shadow-1 ease-out duration-200 text-dark bg-white hover:text-white hover:bg-primary"
@@ -163,9 +142,7 @@ const SingleItem = ({ item }: { item: Product }) => {
           </button>
 
           <button
-            onClick={() => {
-              handleItemToWishList();
-            }}
+            onClick={() => handleAddToWishList(item)}
             aria-label="button for add to fav"
             id="addFavOne"
             className="flex items-center justify-center w-9 h-9 rounded-[5px] shadow-1 ease-out duration-200 text-dark bg-white hover:text-white hover:bg-primary"

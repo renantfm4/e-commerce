@@ -3,24 +3,16 @@ import { AppDispatch } from "@/redux/store";
 import { useDispatch } from "react-redux";
 
 import { removeItemFromWishlist } from "@/redux/features/wishlist-slice";
-import { addItemToCart } from "@/redux/features/cart-slice";
+import { useProductActions } from "@/hooks/useProductActions";
 
 import Image from "next/image";
 
 const SingleItem = ({ item }) => {
   const dispatch = useDispatch<AppDispatch>();
+  const { handleAddToCart } = useProductActions();
 
   const handleRemoveFromWishlist = () => {
     dispatch(removeItemFromWishlist(item.id));
-  };
-
-  const handleAddToCart = () => {
-    dispatch(
-      addItemToCart({
-        ...item,
-        quantity: 1,
-      })
-    );
   };
 
   return (
@@ -104,7 +96,7 @@ const SingleItem = ({ item }) => {
 
       <div className="min-w-[150px] flex justify-end">
         <button
-          onClick={() => handleAddToCart()}
+          onClick={() => handleAddToCart(item)}
           className="inline-flex text-dark hover:text-white bg-gray-1 border border-gray-3 py-2.5 px-6 rounded-md ease-out duration-200 hover:bg-primary hover:border-gray-3"
         >
           Adicionar

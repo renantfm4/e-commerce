@@ -12,48 +12,23 @@ import { AppDispatch } from "@/redux/store";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useProductDetails } from "@/app/context/ProductsDetailsContext";
+import { toast } from "react-toastify";
+import { useProductActions } from "@/hooks/useProductActions";
 
 const ProductItem = ({ item }: { item: Product }) => {
-
   const router = useRouter();
   const { setSelectedProduct } = useProductDetails();
-
   const { openModal } = useModalContext();
+  const dispatch = useDispatch<AppDispatch>();
+  const { handleAddToCart, handleAddToWishList } = useProductActions();
 
   const handleViewDetails = () => {
     setSelectedProduct(item);
     router.push("/shop-details");
   };
 
-  const dispatch = useDispatch<AppDispatch>();
-
-  // update the QuickView state
   const handleQuickViewUpdate = () => {
     dispatch(updateQuickView({ ...item }));
-  };
-
-  // Adicionar
-  const handleAddToCart = () => {
-    dispatch(
-      addItemToCart({
-        ...item,
-        quantity: 1,
-      })
-    );
-  };
-
-  const handleItemToWishList = () => {
-    dispatch(
-      addItemToWishlist({
-        ...item,
-        status: "available",
-        quantity: 1,
-      })
-    );
-  };
-
-  const handleProductDetails = () => {
-    dispatch(updateproductDetails({ ...item }));
   };
 
   return (
@@ -95,14 +70,14 @@ const ProductItem = ({ item }: { item: Product }) => {
           </button>
 
           <button
-            onClick={() => handleAddToCart()}
+            onClick={() => handleAddToCart(item)}
             className="inline-flex font-medium text-custom-sm py-[7px] px-5 rounded-[5px] bg-primary text-white ease-out duration-200 hover:bg-primary-dark"
           >
             Adicionar
           </button>
 
           <button
-            onClick={() => handleItemToWishList()}
+            onClick={() => handleAddToWishList(item)}
             aria-label="button for favorite select"
             id="favOne"
             className="flex items-center justify-center w-9 h-9 rounded-[5px] shadow-1 ease-out duration-200 text-dark bg-white hover:text-primary"
@@ -128,50 +103,22 @@ const ProductItem = ({ item }: { item: Product }) => {
 
       <div className="flex items-center gap-2.5 mb-2">
         <div className="flex items-center gap-1">
-          <Image
-            src="/images/icons/icon-star.svg"
-            alt="star icon"
-            width={14}
-            height={14}
-          />
-          <Image
-            src="/images/icons/icon-star.svg"
-            alt="star icon"
-            width={14}
-            height={14}
-          />
-          <Image
-            src="/images/icons/icon-star.svg"
-            alt="star icon"
-            width={14}
-            height={14}
-          />
-          <Image
-            src="/images/icons/icon-star.svg"
-            alt="star icon"
-            width={14}
-            height={14}
-          />
-          <Image
-            src="/images/icons/icon-star.svg"
-            alt="star icon"
-            width={14}
-            height={14}
-          />
+          <Image src="/images/icons/icon-star.svg" alt="star icon" width={14} height={14} />
+          <Image src="/images/icons/icon-star.svg" alt="star icon" width={14} height={14} />
+          <Image src="/images/icons/icon-star.svg" alt="star icon" width={14} height={14} />
+          <Image src="/images/icons/icon-star.svg" alt="star icon" width={14} height={14} />
+          <Image src="/images/icons/icon-star.svg" alt="star icon" width={14} height={14} />
         </div>
 
         <p className="text-custom-sm">({item.reviews})</p>
       </div>
 
-      <h3 className="font-medium text-dark ease-out duration-200 hover:text-primary mb-1.5 cursor-pointer" onClick={handleViewDetails}>
+      <h3
+        className="font-medium text-dark ease-out duration-200 hover:text-primary mb-1.5 cursor-pointer"
+        onClick={handleViewDetails}
+      >
         {item.title}
       </h3>
-
-     {/* <h3 className="font-medium text-dark ease-out duration-200 hover:text-primary mb-1.5">
-      <Link href={`/shop-details/${item.id}`}>
-        {item.title}
-      </Link>
-    </h3> */}
 
       <span className="flex items-center gap-2 font-medium text-lg">
         <span className="text-dark">R$ {item.discountedPrice}</span>

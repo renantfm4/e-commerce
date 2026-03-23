@@ -1,50 +1,97 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Breadcrumb from "../Common/Breadcrumb";
 import Image from "next/image";
 import AddressModal from "./AddressModal";
 import Orders from "../Orders";
+import { useUser } from "../../../stores/user-store";
+import { useRouter } from "next/navigation";
+import { logoutAction } from "../../../actions/auth/login/logout-action";
 
 const MyAccount = () => {
   const [activeTab, setActiveTab] = useState("dashboard");
   const [addressModal, setAddressModal] = useState(false);
+  const [hydrated, setHydrated] = useState(false);
 
-  const openAddressModal = () => {
-    setAddressModal(true);
+  const user = useUser();
+  const router = useRouter();
+
+  const [formData, setFormData] = useState({
+    firstName: "",
+    lastName: "",
+  });
+
+  useEffect(() => {
+    setHydrated(true);
+  }, []);
+
+  useEffect(() => {
+    if (!hydrated) return;
+
+    if (user?.name) {
+      setFormData({
+        firstName: user.name.split(" ")[0] || "",
+        lastName: user.name.split(" ").slice(1).join(" ") || "",
+      });
+    }
+  }, [hydrated, user?.name]);
+
+  useEffect(() => {
+    if (!hydrated) return;
+
+    if (!user?.isLogged) {
+      router.replace("/");
+    }
+  }, [hydrated, user?.isLogged, router]);
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const closeAddressModal = () => {
-    setAddressModal(false);
+  const openAddressModal = () => setAddressModal(true);
+  const closeAddressModal = () => setAddressModal(false);
+
+  const handleLogout = async () => {
+    await logoutAction();
+    window.location.href = "/";
   };
+
+  if (!hydrated) {
+    return <div>Carregando...</div>;
+  }
+
+  if (!user?.isLogged) {
+    return null;
+  }
+
+  const displayName = user.name || "Usuário";
 
   return (
     <>
-      <Breadcrumb title={"My Account"} pages={["my account"]} />
-
+      <Breadcrumb title={"Minha Conta"} pages={["minha conta"]} />
       <section className="overflow-hidden py-20 bg-gray-2">
         <div className="max-w-[1170px] w-full mx-auto px-4 sm:px-8 xl:px-0">
           <div className="flex flex-col xl:flex-row gap-7.5">
-            {/* <!--== user dashboard menu start ==--> */}
+            {/* */}
             <div className="xl:max-w-[370px] w-full bg-white rounded-xl shadow-1">
               <div className="flex xl:flex-col">
                 <div className="hidden lg:flex flex-wrap items-center gap-5 py-6 px-4 sm:px-7.5 xl:px-9 border-r xl:border-r-0 xl:border-b border-gray-3">
                   <div className="max-w-[64px] w-full h-16 rounded-full overflow-hidden">
                     <Image
                       src="/images/users/user-04.jpg"
-                      alt="user"
+                      alt="usuário"
                       width={64}
                       height={64}
                     />
                   </div>
-
                   <div>
                     <p className="font-medium text-dark mb-0.5">
-                      James Septimus
+                      {displayName}
                     </p>
-                    <p className="text-custom-xs">Member Since Sep 2020</p>
+                    <p className="text-custom-xs">Membro desde Set 2020</p>
                   </div>
                 </div>
-
                 <div className="p-4 sm:p-7.5 xl:p-9">
                   <div className="flex flex-wrap xl:flex-nowrap xl:flex-col gap-4">
                     <button
@@ -88,7 +135,7 @@ const MyAccount = () => {
                           fill=""
                         />
                       </svg>
-                      Dashboard
+                      Painel
                     </button>
                     <button
                       onClick={() => setActiveTab("orders")}
@@ -125,10 +172,9 @@ const MyAccount = () => {
                           fill=""
                         />
                       </svg>
-                      Orders
+                      Pedidos
                     </button>
-
-                    <button
+                    {/* <button
                       onClick={() => setActiveTab("downloads")}
                       className={`flex items-center rounded-md gap-2.5 py-3 px-4.5 ease-out duration-200 hover:bg-primary hover:text-white ${
                         activeTab === "downloads"
@@ -154,8 +200,7 @@ const MyAccount = () => {
                         />
                       </svg>
                       Downloads
-                    </button>
-
+                    </button> */}
                     <button
                       onClick={() => setActiveTab("addresses")}
                       className={`flex items-center rounded-md gap-2.5 py-3 px-4.5 ease-out duration-200 hover:bg-primary hover:text-white ${
@@ -179,13 +224,12 @@ const MyAccount = () => {
                         <path
                           fillRule="evenodd"
                           clipRule="evenodd"
-                          d="M11.0007 1.14581C10.3515 1.14581 9.7618 1.33173 9.12199 1.64287C8.50351 1.94363 7.78904 2.38706 6.8966 2.94094L5.00225 4.11664C4.15781 4.6407 3.48164 5.06035 2.96048 5.45947C2.42079 5.87278 2.00627 6.29371 1.70685 6.84072C1.40806 7.38659 1.2735 7.96741 1.20899 8.65396C1.14647 9.31931 1.14648 10.1329 1.14648 11.1533V12.6315C1.14647 14.3767 1.14646 15.7543 1.28646 16.8315C1.43008 17.9364 1.73183 18.8284 2.41365 19.5336C3.0986 20.2421 3.97024 20.5587 5.04929 20.7087C6.0951 20.8542 7.43075 20.8542 9.11401 20.8541H12.8872C14.5705 20.8542 15.9062 20.8542 16.952 20.7087C18.0311 20.5587 18.9027 20.2421 19.5877 19.5336C20.2695 18.8284 20.5712 17.9364 20.7148 16.8315C20.8548 15.7543 20.8548 14.3768 20.8548 12.6315V11.1533C20.8548 10.1329 20.8548 9.31929 20.7923 8.65396C20.7278 7.96741 20.5932 7.38659 20.2944 6.84072C19.995 6.29371 19.5805 5.87278 19.0408 5.45947C18.5197 5.06035 17.8435 4.64071 16.9991 4.11665L15.1047 2.94093C14.2123 2.38706 13.4978 1.94363 12.8793 1.64287C12.2395 1.33173 11.6498 1.14581 11.0007 1.14581ZM7.59022 4.12875C8.52133 3.55088 9.17602 3.14555 9.72332 2.87941C10.2565 2.62011 10.6342 2.52081 11.0007 2.52081C11.3672 2.52081 11.7448 2.62011 12.278 2.87941C12.8253 3.14555 13.48 3.55088 14.4111 4.12875L16.2444 5.26657C17.1252 5.8132 17.7436 6.19788 18.2048 6.55112C18.6536 6.89482 18.9118 7.17845 19.0883 7.50093C19.2655 7.82455 19.3689 8.20291 19.4233 8.7826C19.4791 9.37619 19.4798 10.1253 19.4798 11.1869V12.5812C19.4798 14.3879 19.4785 15.676 19.3513 16.6542C19.2264 17.6149 18.9912 18.1723 18.5991 18.5779C18.2101 18.9803 17.6805 19.2192 16.7626 19.3468C15.8225 19.4776 14.5826 19.4791 12.834 19.4791H9.16732C7.41875 19.4791 6.17883 19.4776 5.23869 19.3468C4.32077 19.2192 3.79119 18.9803 3.40221 18.5779C3.01008 18.1723 2.77486 17.6149 2.64999 16.6542C2.52285 15.676 2.52148 14.3879 2.52148 12.5812V11.1869C2.52148 10.1253 2.52218 9.37619 2.57796 8.7826C2.63243 8.20291 2.73584 7.82455 2.91299 7.50093C3.0895 7.17845 3.3477 6.89482 3.79649 6.55112C4.25774 6.19788 4.87612 5.8132 5.75689 5.26657L7.59022 4.12875Z"
+                          d="M11.0007 1.14581C10.3515 1.14581 9.7618 1.33173 9.12199 1.64287C8.50351 1.94363 7.78904 2.38706 6.8966 2.94094L5.00225 4.11664C4.15781 4.6407 3.48164 5.06035 2.96048 5.45947C2.42079 5.87278 2.00627 6.29371 1.70685 6.84072C1.40806 7.38659 1.2735 7.96741 1.20899 8.65396C1.14647 9.31931 1.14648 10.1329 1.14648 11.1533V12.6315C1.14647 14.3767 1.14646 15.7543 1.28646 16.8315C1.43008 17.9364 1.73183 18.8284 2.41365 19.5336C3.0986 20.2421 3.97024 20.5587 5.04929 20.7087C6.0951 20.8542 7.43075 20.8542 9.11401 20.8541H12.8872C14.5705 20.8542 15.9062 20.8542 16.952 20.7087C18.0311 20.5587 18.9027 20.2421 19.5877 19.5336C20.2695 18.8284 20.5712 17.9364 20.7148 16.8315C20.8548 15.7543 20.8548 14.3768 20.8548 12.6315V11.1533C20.8548 10.1329 20.8548 9.31929 20.7923 8.65396C20.7278 7.96741 20.5932 7.38659 20.2944 6.84072C19.995 6.29371 19.5805 5.87278 19.0408 5.45947C18.5197 5.06035 17.8435 4.64071 16.9991 4.11665L15.1047 2.94093C14.2123 2.38706 13.4978 1.94363 12.8793 1.64287C12.2395 1.33173 11.6498 1.14581 11.0007 1.14581ZM7.59022 4.12875C8.52133 3.55088 9.17602 3.14555 9.72332 2.87941C10.2565 2.62011 10.6342 2.52081 11.0007 2.52081C11.3672 2.52081 11.7448 2.62011 12.278 2.87941C12.8253 3.14555 13.48 3.55088 14.4111 4.12875L16.2444 5.26657C17.1252 5.8132 17.7436 6.19788 18.2048 6.55112C18.6536 6.89482 18.9118 7.17845 19.0883 7.50093C19.2655 7.82455 19.3689 8.20291 19.4233 8.7826C19.4791 9.37619 19.4798 10.1253 19.4798 11.1869V12.5812C19.4798 14.3879 19.4785 15.676 19.3513 16.6542C19.2264 17.6149 18.9912 18.1723 18.5991 18.5779C18.2101 18.9803 17.6805 19.2192 16.7626 19.3468C15.8225 19.4776 14.5826 19.4791 12.834 19.4791H9.166732C7.41875 19.4791 6.17883 19.4776 5.23869 19.3468C4.32077 19.2192 3.79119 18.9803 3.40221 18.5779C3.01008 18.1723 2.77486 17.6149 2.64999 16.6542C2.52285 15.676 2.52148 14.3879 2.52148 12.5812V11.1869C2.52148 10.1253 2.52218 9.37619 2.57796 8.7826C2.63243 8.20291 2.73584 7.82455 2.91299 7.50093C3.0895 7.17845 3.3477 6.89482 3.79649 6.55112C4.25774 6.19788 4.87612 5.8132 5.75689 5.26657L7.59022 4.12875Z"
                           fill=""
                         />
                       </svg>
-                      Addresses
+                      Endereços
                     </button>
-
                     <button
                       onClick={() => setActiveTab("account-details")}
                       className={`flex items-center rounded-md gap-2.5 py-3 px-4.5 ease-out duration-200 hover:bg-primary hover:text-white ${
@@ -215,9 +259,8 @@ const MyAccount = () => {
                           fill=""
                         />
                       </svg>
-                      Account Details
+                      Detalhes da Conta
                     </button>
-
                     <button
                       onClick={() => setActiveTab("logout")}
                       className={`flex items-center rounded-md gap-2.5 py-3 px-4.5 ease-out duration-200 hover:bg-primary hover:text-white ${
@@ -243,43 +286,32 @@ const MyAccount = () => {
                           fill=""
                         />
                       </svg>
-                      Logout
+                      Sair
                     </button>
                   </div>
                 </div>
               </div>
             </div>
-            {/* <!--== user dashboard menu end ==-->
-
-            
-          <!--== user dashboard content start ==--> */}
-            {/* <!-- dashboard tab content start --> */}
-
-            <div
-              className={`xl:max-w-[770px] w-full bg-white rounded-xl shadow-1 py-9.5 px-4 sm:px-7.5 xl:px-10 ${
-                activeTab === "dashboard" ? "block" : "hidden"
-              }`}
-            >
+            {/* */}
+            {/* */}
+            <div className={`xl:max-w-[770px] w-full bg-white rounded-xl shadow-1 py-9.5 px-4 sm:px-7.5 xl:px-10 ${activeTab === "dashboard" ? "block" : "hidden"}`}>
               <p className="text-dark">
-                Hello Annie (not Annie?
-                <a
-                  href="#"
-                  className="text-red ease-out duration-200 hover:underline"
+                Olá {user.name} (não é {user.name}?
+                <button
+                  onClick={handleLogout}
+                  className="ml-1 text-red ease-out duration-200 hover:underline"
                 >
-                  Log Out
-                </a>
+                  Sair
+                </button>
                 )
               </p>
-
               <p className="text-custom-sm mt-4">
-                From your account dashboard you can view your recent orders,
-                manage your shipping and billing addresses, and edit your
-                password and account details.
+                A partir do painel de controle da sua conta, você pode visualizar seus pedidos recentes,
+                gerenciar seus endereços de entrega e faturamento e editar sua
+                senha e detalhes da conta.
               </p>
             </div>
-            {/* <!-- dashboard tab content end -->
-
-          <!-- orders tab content start --> */}
+            {/* */}
             <div
               className={`xl:max-w-[770px] w-full bg-white rounded-xl shadow-1 ${
                 activeTab === "orders" ? "block" : "hidden"
@@ -287,19 +319,15 @@ const MyAccount = () => {
             >
               <Orders />
             </div>
-            {/* <!-- orders tab content end -->
-
-          <!-- downloads tab content start --> */}
+            {/* */}
             <div
               className={`xl:max-w-[770px] w-full bg-white rounded-xl shadow-1 py-9.5 px-4 sm:px-7.5 xl:px-10 ${
                 activeTab === "downloads" ? "block" : "hidden"
               }`}
             >
-              <p>You don&apos;t have any download</p>
+              <p>Você não possui nenhum download</p>
             </div>
-            {/* <!-- downloads tab content end -->
-
-          <!-- addresses tab content start --> */}
+            {/* */}
             <div
               className={`flex-col sm:flex-row gap-7.5 ${
                 activeTab === "addresses" ? "flex" : "hidden"
@@ -308,9 +336,8 @@ const MyAccount = () => {
               <div className="xl:max-w-[370px] w-full bg-white shadow-1 rounded-xl">
                 <div className="flex items-center justify-between py-5 px-4 sm:pl-7.5 sm:pr-6 border-b border-gray-3">
                   <p className="font-medium text-xl text-dark">
-                    Shipping Address
+                    Endereço de Entrega
                   </p>
-
                   <button
                     className="text-dark ease-out duration-200 hover:text-primary"
                     onClick={openAddressModal}
@@ -332,7 +359,6 @@ const MyAccount = () => {
                     </svg>
                   </button>
                 </div>
-
                 <div className="p-4 sm:p-7.5">
                   <div className="flex flex-col gap-4">
                     <p className="flex items-center gap-2.5 text-custom-sm">
@@ -357,9 +383,8 @@ const MyAccount = () => {
                           fill=""
                         />
                       </svg>
-                      Name: James Septimus
+                      Nome: {user.name}
                     </p>
-
                     <p className="flex items-center gap-2.5 text-custom-sm">
                       <svg
                         className="fill-current"
@@ -376,9 +401,8 @@ const MyAccount = () => {
                           fill=""
                         />
                       </svg>
-                      Email: jamse@example.com
+                      E-mail: {user.email}
                     </p>
-
                     <p className="flex items-center gap-2.5 text-custom-sm">
                       <svg
                         className="fill-current"
@@ -405,9 +429,8 @@ const MyAccount = () => {
                           fill=""
                         />
                       </svg>
-                      Phone: 1234 567890
+                      Telefone: 1234 567890
                     </p>
-
                     <p className="flex gap-2.5 text-custom-sm">
                       <svg
                         className="fill-current mt-0.5"
@@ -431,18 +454,16 @@ const MyAccount = () => {
                           </clipPath>
                         </defs>
                       </svg>
-                      Address: 7398 Smoke Ranch RoadLas Vegas, Nevada 89128
+                      Endereço: 7398 Smoke Ranch RoadLas Vegas, Nevada 89128
                     </p>
                   </div>
                 </div>
               </div>
-
               <div className="xl:max-w-[370px] w-full bg-white shadow-1 rounded-xl">
                 <div className="flex items-center justify-between py-5 px-4 sm:pl-7.5 sm:pr-6 border-b border-gray-3">
                   <p className="font-medium text-xl text-dark">
-                    Billing Address
+                    Endereço de Faturamento
                   </p>
-
                   <button
                     className="text-dark ease-out duration-200 hover:text-primary"
                     onClick={openAddressModal}
@@ -464,7 +485,6 @@ const MyAccount = () => {
                     </svg>
                   </button>
                 </div>
-
                 <div className="p-4 sm:p-7.5">
                   <div className="flex flex-col gap-4">
                     <p className="flex items-center gap-2.5 text-custom-sm">
@@ -489,9 +509,8 @@ const MyAccount = () => {
                           fill=""
                         />
                       </svg>
-                      Name: James Septimus
+                      Nome: {user.name}
                     </p>
-
                     <p className="flex items-center gap-2.5 text-custom-sm">
                       <svg
                         className="fill-current"
@@ -508,9 +527,8 @@ const MyAccount = () => {
                           fill=""
                         />
                       </svg>
-                      Email: jamse@example.com
+                      E-mail: {user.email}
                     </p>
-
                     <p className="flex items-center gap-2.5 text-custom-sm">
                       <svg
                         className="fill-current"
@@ -537,9 +555,8 @@ const MyAccount = () => {
                           fill=""
                         />
                       </svg>
-                      Phone: 1234 567890
+                      Telefone: 1234 567890
                     </p>
-
                     <p className="flex gap-2.5 text-custom-sm">
                       <svg
                         className="fill-current mt-0.5"
@@ -563,15 +580,13 @@ const MyAccount = () => {
                           </clipPath>
                         </defs>
                       </svg>
-                      Address: 7398 Smoke Ranch RoadLas Vegas, Nevada 89128
+                      Endereço: 7398 Smoke Ranch RoadLas Vegas, Nevada 89128
                     </p>
                   </div>
                 </div>
               </div>
             </div>
-            {/* <!-- addresses tab content end -->
-
-          <!-- details tab content start --> */}
+            {/* */}
             <div
               className={`xl:max-w-[770px] w-full ${
                 activeTab === "account-details" ? "block" : "hidden"
@@ -582,47 +597,43 @@ const MyAccount = () => {
                   <div className="flex flex-col lg:flex-row gap-5 sm:gap-8 mb-5">
                     <div className="w-full">
                       <label htmlFor="firstName" className="block mb-2.5">
-                        First Name <span className="text-red">*</span>
+                        Nome <span className="text-red">*</span>
                       </label>
-
                       <input
                         type="text"
                         name="firstName"
                         id="firstName"
                         placeholder="Jhon"
-                        value="Jhon"
+                        value={formData.firstName}
+                        onChange={handleChange}
                         className="rounded-md border border-gray-3 bg-gray-1 placeholder:text-dark-5 w-full py-2.5 px-5 outline-none duration-200 focus:border-transparent focus:shadow-input focus:ring-2 focus:ring-primary/20"
                       />
                     </div>
-
                     <div className="w-full">
                       <label htmlFor="lastName" className="block mb-2.5">
-                        Last Name <span className="text-red">*</span>
+                        Sobrenome <span className="text-red">*</span>
                       </label>
-
                       <input
                         type="text"
                         name="lastName"
                         id="lastName"
                         placeholder="Deo"
-                        value="Deo"
+                        value={formData.lastName}
+                        onChange={handleChange}
                         className="rounded-md border border-gray-3 bg-gray-1 placeholder:text-dark-5 w-full py-2.5 px-5 outline-none duration-200 focus:border-transparent focus:shadow-input focus:ring-2 focus:ring-primary/20"
                       />
                     </div>
                   </div>
-
                   <div className="mb-5">
                     <label htmlFor="countryName" className="block mb-2.5">
-                      Country/ Region <span className="text-red">*</span>
+                      País/ Região <span className="text-red">*</span>
                     </label>
-
                     <div className="relative">
                       <select className="w-full bg-gray-1 rounded-md border border-gray-3 text-dark-4 py-3 pl-5 pr-9 duration-200 appearance-none outline-none focus:border-transparent focus:shadow-input focus:ring-2 focus:ring-primary/20">
-                        <option value="0">Australia</option>
-                        <option value="1">America</option>
-                        <option value="2">England</option>
+                        <option value="0">Austrália</option>
+                        <option value="1">América</option>
+                        <option value="2">Inglaterra</option>
                       </select>
-
                       <span className="absolute right-4 top-1/2 -translate-y-1/2 text-dark-4">
                         <svg
                           className="fill-current"
@@ -636,36 +647,30 @@ const MyAccount = () => {
                             d="M2.41469 5.03569L2.41467 5.03571L2.41749 5.03846L7.76749 10.2635L8.0015 10.492L8.23442 10.2623L13.5844 4.98735L13.5844 4.98735L13.5861 4.98569C13.6809 4.89086 13.8199 4.89087 13.9147 4.98569C14.0092 5.08024 14.0095 5.21864 13.9155 5.31345C13.9152 5.31373 13.915 5.31401 13.9147 5.31429L8.16676 10.9622L8.16676 10.9622L8.16469 10.9643C8.06838 11.0606 8.02352 11.0667 8.00039 11.0667C7.94147 11.0667 7.89042 11.0522 7.82064 10.9991L2.08526 5.36345C1.99127 5.26865 1.99154 5.13024 2.08609 5.03569C2.18092 4.94086 2.31986 4.94086 2.41469 5.03569Z"
                             fill=""
                             stroke=""
-                            stroke-width="0.666667"
+                            strokeWidth="0.666667"
                           />
                         </svg>
                       </span>
                     </div>
                   </div>
-
                   <button
                     type="submit"
                     className="inline-flex font-medium text-white bg-primary py-3 px-7 rounded-md ease-out duration-200 hover:bg-primary-dark"
                   >
-                    Save Changes
+                    Salvar Alterações
                   </button>
                 </div>
-
                 <p className="text-custom-sm mt-5 mb-9">
-                  This will be how your name will be displayed in the account
-                  section and in reviews
+                  Este será o modo como seu nome será exibido na seção da conta e nas avaliações
                 </p>
-
                 <p className="font-medium text-xl sm:text-2xl text-dark mb-7">
-                  Password Change
+                  Alteração de Senha
                 </p>
-
                 <div className="bg-white shadow-1 rounded-xl p-4 sm:p-8.5">
                   <div className="mb-5">
                     <label htmlFor="oldPassword" className="block mb-2.5">
-                      Old Password
+                      Senha Antiga
                     </label>
-
                     <input
                       type="password"
                       name="oldPassword"
@@ -674,12 +679,10 @@ const MyAccount = () => {
                       className="rounded-md border border-gray-3 bg-gray-1 placeholder:text-dark-5 w-full py-2.5 px-5 outline-none duration-200 focus:border-transparent focus:shadow-input focus:ring-2 focus:ring-primary/20"
                     />
                   </div>
-
                   <div className="mb-5">
                     <label htmlFor="newPassword" className="block mb-2.5">
-                      New Password
+                      Nova Senha
                     </label>
-
                     <input
                       type="password"
                       name="newPassword"
@@ -688,15 +691,13 @@ const MyAccount = () => {
                       className="rounded-md border border-gray-3 bg-gray-1 placeholder:text-dark-5 w-full py-2.5 px-5 outline-none duration-200 focus:border-transparent focus:shadow-input focus:ring-2 focus:ring-primary/20"
                     />
                   </div>
-
                   <div className="mb-5">
                     <label
                       htmlFor="confirmNewPassword"
                       className="block mb-2.5"
                     >
-                      Confirm New Password
+                      Confirmar Nova Senha
                     </label>
-
                     <input
                       type="password"
                       name="confirmNewPassword"
@@ -705,25 +706,21 @@ const MyAccount = () => {
                       className="rounded-md border border-gray-3 bg-gray-1 placeholder:text-dark-5 w-full py-2.5 px-5 outline-none duration-200 focus:border-transparent focus:shadow-input focus:ring-2 focus:ring-primary/20"
                     />
                   </div>
-
                   <button
                     type="submit"
                     className="inline-flex font-medium text-white bg-primary py-3 px-7 rounded-md ease-out duration-200 hover:bg-primary-dark"
                   >
-                    Change Password
+                    Alterar Senha
                   </button>
                 </div>
               </form>
             </div>
-            {/* <!-- details tab content end -->
-          <!--== user dashboard content end ==--> */}
+            {/* */}
           </div>
         </div>
       </section>
-
       <AddressModal isOpen={addressModal} closeModal={closeAddressModal} />
     </>
   );
 };
-
 export default MyAccount;

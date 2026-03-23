@@ -9,33 +9,16 @@ import { useDispatch } from "react-redux";
 import { AppDispatch } from "@/redux/store";
 import Link from "next/link";
 import Image from "next/image";
+import { useProductActions } from "@/hooks/useProductActions";
 
 const SingleGridItem = ({ item }: { item: Product }) => {
   const { openModal } = useModalContext();
+  const { handleAddToCart, handleAddToWishList } = useProductActions();
 
   const dispatch = useDispatch<AppDispatch>();
 
   const handleQuickViewUpdate = () => {
     dispatch(updateQuickView({ ...item }));
-  };
-
-  const handleAddToCart = () => {
-    dispatch(
-      addItemToCart({
-        ...item,
-        quantity: 1,
-      })
-    );
-  };
-
-  const handleItemToWishList = () => {
-    dispatch(
-      addItemToWishlist({
-        ...item,
-        status: "available",
-        quantity: 1,
-      })
-    );
   };
 
   return (
@@ -77,14 +60,14 @@ const SingleGridItem = ({ item }: { item: Product }) => {
           </button>
 
           <button
-            onClick={() => handleAddToCart()}
+            onClick={() => handleAddToCart(item)}
             className="inline-flex font-medium text-custom-sm py-[7px] px-5 rounded-[5px] bg-primary text-white ease-out duration-200 hover:bg-primary-dark"
           >
             Adicionar
           </button>
 
           <button
-            onClick={() => handleItemToWishList()}
+            onClick={() => handleAddToWishList(item)}
             aria-label="button for favorite select"
             id="favOne"
             className="flex items-center justify-center w-9 h-9 rounded-[5px] shadow-1 ease-out duration-200 text-dark bg-white hover:text-primary"

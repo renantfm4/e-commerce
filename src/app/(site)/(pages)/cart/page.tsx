@@ -1,10 +1,13 @@
 import React from "react";
 import Cart from "@/components/Cart";
+import shopConfig from "@/constants/shop.config.json";
+
+const shopName = shopConfig.shopName;
 
 import { Metadata } from "next";
 export const metadata: Metadata = {
-  title: "Cart Page | NextCommerce Nextjs E-commerce template",
-  description: "This is Cart Page for NextCommerce Template",
+  title: `${shopName} | Cart Page`,
+  description: `This is the Cart page for ${shopName} Template`,
   // other metadata
 };
 

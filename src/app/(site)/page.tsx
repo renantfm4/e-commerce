@@ -1,9 +1,12 @@
 import Home from "@/components/Home";
 import { Metadata } from "next";
+import shopConfig from "@/constants/shop.config.json";
+
+const shopName = shopConfig.shopName;
 
 export const metadata: Metadata = {
-  title: "NextCommerce | Nextjs E-commerce template",
-  description: "This is Home for NextCommerce Template",
+  title: `${shopName} | Nextjs E-commerce template`,
+  description: `This is the Home page for ${shopName} Template`,
   // other metadata
 };
 

@@ -1,4 +1,6 @@
-import React from "react";
+"use client"
+
+import React, { useRef, useState } from "react";
 import Image from "next/image";
 import shopConfig from "@/constants/shop.config.json";
 
@@ -8,6 +10,12 @@ const shopName = shopConfig.shopName;
 
 const Footer = () => {
   const year = new Date().getFullYear();
+
+    const [signinOpen, setSigninOpen] = useState(false);
+    const [signupOpen, setSignupOpen] = useState(false);
+
+    const [accountOpen, setAccountOpen] = useState(false);
+    const accountRef = useRef<HTMLDivElement | null>(null);
 
   return (
     <footer className="overflow-hidden">
@@ -213,22 +221,26 @@ const Footer = () => {
                 </a>
               </li>
               <li>
-                <a className="ease-out duration-200 hover:text-primary" href="#">
+                <a className="ease-out duration-200 hover:text-primary" href="#"
+                onClick={() => {
+                                setAccountOpen(false);
+                                setSigninOpen(true);
+                              }}>
                   Entrar / Cadastrar
                 </a>
               </li>
               <li>
-                <a className="ease-out duration-200 hover:text-primary" href="#">
+                <a className="ease-out duration-200 hover:text-primary" href="/cart">
                   Carrinho
                 </a>
               </li>
               <li>
-                <a className="ease-out duration-200 hover:text-primary" href="#">
+                <a className="ease-out duration-200 hover:text-primary" href="/wishlist">
                   Lista de Desejos
                 </a>
               </li>
               <li>
-                <a className="ease-out duration-200 hover:text-primary" href="#">
+                <a className="ease-out duration-200 hover:text-primary" href="/shop-with-sidebar">
                   Loja
                 </a>
               </li>

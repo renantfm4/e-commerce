@@ -1,10 +1,13 @@
 import React from "react";
 import MailSuccess from "@/components/MailSuccess";
+import shopConfig from "@/constants/shop.config.json";
+
+const shopName = shopConfig.shopName;
 
 import { Metadata } from "next";
 export const metadata: Metadata = {
-  title: "Mail Success Page | NextCommerce Nextjs E-commerce template",
-  description: "This is Mail Success Page for NextCommerce Template",
+  title: `${shopName} | Sucesso no Envio do E-mail`,
+  description: `Esta é a página de sucesso no envio do e-mail para o template ${shopName}`,
   // other metadata
 };
 

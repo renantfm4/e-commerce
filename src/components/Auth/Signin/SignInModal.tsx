@@ -53,9 +53,9 @@ export default function SigninModal({
   };
 
   const handleOpenSignup = () => {
-  handleClose();
-  onOpenSignup?.();
-};
+    handleClose();
+    onOpenSignup?.();
+  };
 
   const onSubmit = async (data: LoginFormData) => {
     setLoading(true);
@@ -101,21 +101,21 @@ export default function SigninModal({
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent
-  closeButtonVariant="white"
-  className="
-    max-w-md sm:max-w-lg
-    w-[calc(100vw-2rem)]
-    max-h-[calc(100vh-2rem)]
-    p-0
-    bg-white
-    border-0
-    shadow-2xl
-    overflow-hidden
-    flex flex-col
-    rounded-2xl
-    animate-in fade-in-0 zoom-in-95 duration-300
-  "
->
+        closeButtonVariant="white"
+        className="
+          max-w-md sm:max-w-lg
+          w-[calc(100vw-2rem)]
+          max-h-[calc(100vh-2rem)]
+          p-0
+          bg-white
+          border-0
+          shadow-2xl
+          overflow-hidden
+          flex flex-col
+          rounded-2xl
+          animate-in fade-in-0 zoom-in-95 duration-300
+        "
+      >
         <div className="bg-gradient-to-r from-primary to-primary/80 p-6 rounded-t-2xl">
           <div className="flex items-center gap-3 pr-12">
             <div className="p-2 bg-white/20 rounded-lg backdrop-blur-sm">
@@ -134,7 +134,7 @@ export default function SigninModal({
           </div>
         </div>
 
-       <div className="p-6 bg-white overflow-y-auto">
+        <div className="p-6 bg-white overflow-y-auto">
           <form onSubmit={handleSubmit(onSubmit)}>
             <div className="mb-5">
               <label className="block mb-2.5 text-sm font-medium text-dark">
@@ -252,12 +252,12 @@ export default function SigninModal({
           <p className="text-center mt-6 text-sm text-dark-5">
             Não tem uma conta?
             <button
-  type="button"
-  onClick={handleOpenSignup}
-  className="text-dark hover:text-primary pl-2 font-medium"
->
-  Cadastre-se agora!
-</button>
+              type="button"
+              onClick={handleOpenSignup}
+              className="text-dark hover:text-primary pl-2 font-medium"
+            >
+              Cadastre-se agora!
+            </button>
           </p>
         </div>
 

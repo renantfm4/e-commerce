@@ -21,6 +21,10 @@ import CartPersist from "@/components/Common/CartPersist";
 import SigninModal from "../Auth/Signin/SignInModal";
 import SignupModal from "../Auth/Signup/SignUpModal";
 
+import shopConfig from "@/constants/shop.config.json";
+
+const contact = shopConfig.contact;
+
 type Props = {
   user: AuthUser | null;
 };
@@ -203,7 +207,7 @@ const HeaderClient = ({ user }: Props) => {
                     SUPORTE 24/7
                   </span>
                   <p className="font-medium text-custom-sm text-dark">
-                    61 9969-3003
+                    {contact.phone}
                   </p>
                 </div>
               </div>
@@ -250,45 +254,72 @@ const HeaderClient = ({ user }: Props) => {
                     </button>
 
                     {accountOpen && (
-                      <div className="absolute right-0 mt-3 w-56 rounded-lg border border-gray-3 bg-white shadow-lg p-2 z-50">
+                      <div className="absolute right-0 mt-3 w-64 rounded-xl border border-gray-3 bg-white shadow-2xl p-3 z-50 overflow-hidden">
                         {!user ? (
-                          <div className="flex flex-col gap-2">
+                          // Usuário NÃO logado
+                          <div className="flex flex-col gap-3">
                             <button
                               type="button"
-                              className="w-full text-center rounded-md bg-dark text-white py-2 px-3 hover:bg-primary transition"
+                              className="w-full text-center rounded-lg bg-primary text-white py-3 px-4 font-medium hover:bg-primary-dark transition duration-200 shadow-sm"
                               onClick={() => {
                                 setAccountOpen(false);
                                 setSigninOpen(true);
                               }}
                             >
-                              Entrar
+                              Entrar na conta
                             </button>
 
                             <button
                               type="button"
-                              className="w-full text-center rounded-md border border-gray-3 bg-gray-1 py-2 px-3 hover:bg-gray-2 transition"
+                              className="w-full text-center rounded-lg border border-gray-300 bg-white py-3 px-4 font-medium text-dark hover:bg-gray-50 transition duration-200"
                               onClick={() => {
                                 setAccountOpen(false);
                                 setSignupOpen(true);
                               }}
                             >
-                              Cadastrar
+                              Criar uma conta
                             </button>
                           </div>
                         ) : (
+                          // Usuário LOGADO
                           <div className="flex flex-col gap-2">
-                            <div className="px-2 py-2">
-                              <p className="text-sm font-medium text-dark">
-                                {user.name || "Usuário"}
+                            {/* Informações do usuário */}
+                            <div className="px-3 py-3 bg-gray-50 rounded-lg mb-2">
+                              <p className="text-base font-semibold text-dark truncate">
+                                {user.name || "Olá, usuário"}
                               </p>
-                              <p className="text-xs text-dark-4">
+                              <p className="text-sm text-dark-4 truncate mt-0.5">
                                 {user.email}
                               </p>
                             </div>
 
+                            {/* Link para Minha Conta */}
+                            <Link
+                              href="/my-account"
+                              className="flex items-center gap-3 px-3 py-3 rounded-lg text-dark hover:bg-gray-100 transition duration-200 group"
+                              onClick={() => setAccountOpen(false)}
+                            >
+                              <svg
+                                className="w-5 h-5 text-primary group-hover:text-primary-dark transition"
+                                fill="none"
+                                stroke="currentColor"
+                                viewBox="0 0 24 24"
+                                xmlns="http://www.w3.org/2000/svg"
+                              >
+                                <path
+                                  strokeLinecap="round"
+                                  strokeLinejoin="round"
+                                  strokeWidth={2}
+                                  d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
+                                />
+                              </svg>
+                              <span className="font-medium">Minha Conta</span>
+                            </Link>
+
+                            {/* Botão Sair */}
                             <button
                               type="button"
-                              className="w-full text-center rounded-md bg-dark text-white py-2 px-3 hover:bg-primary transition"
+                              className="flex items-center gap-3 px-3 py-3 rounded-lg text-red hover:bg-red-50 transition duration-200 group"
                               onClick={async () => {
                                 await logoutAction();
                                 dispatch(removeAllItemsFromCart());
@@ -297,7 +328,21 @@ const HeaderClient = ({ user }: Props) => {
                                 window.location.href = "/";
                               }}
                             >
-                              Sair
+                              <svg
+                                className="w-5 h-5 text-red group-hover:text-red-600 transition"
+                                fill="none"
+                                stroke="currentColor"
+                                viewBox="0 0 24 24"
+                                xmlns="http://www.w3.org/2000/svg"
+                              >
+                                <path
+                                  strokeLinecap="round"
+                                  strokeLinejoin="round"
+                                  strokeWidth={2}
+                                  d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"
+                                />
+                              </svg>
+                              <span className="font-medium">Sair</span>
                             </button>
                           </div>
                         )}

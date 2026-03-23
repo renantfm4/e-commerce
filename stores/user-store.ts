@@ -1,4 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { useSelector } from "react-redux";
 
 export type UserState = {
   id: string | null;
@@ -18,6 +19,13 @@ type SetUserPayload = {
   id: string;
   email: string;
   name?: string | null;
+};
+
+// Hook personalizado CORRIGIDO
+export const useUser = () => {
+  return useSelector((state: any) => {
+    return state.userReducer || initialState;
+  }) as UserState;
 };
 
 export const userSlice = createSlice({

@@ -7,13 +7,14 @@ import { addItemToCart } from "@/redux/features/cart-slice";
 import { useDispatch } from "react-redux";
 import Image from "next/image";
 import { usePreviewSlider } from "@/app/context/PreviewSliderContext";
-import { resetQuickView } from "@/redux/features/quickView-slice";
 import { updateproductDetails } from "@/redux/features/product-details";
+import { useProductActions } from "@/hooks/useProductActions";
 
 const QuickViewModal = () => {
   const { isModalOpen, closeModal } = useModalContext();
   const { openPreviewModal } = usePreviewSlider();
   const [quantity, setQuantity] = useState(1);
+  const { handleAddToCart } = useProductActions();
 
   const dispatch = useDispatch<AppDispatch>();
 
@@ -29,17 +30,6 @@ const QuickViewModal = () => {
     openPreviewModal();
   };
 
-  // Adicionar ao carrinho
-  const handleAddToCart = () => {
-    dispatch(
-      addItemToCart({
-        ...product,
-        quantity,
-      })
-    );
-
-    closeModal();
-  };
 
   useEffect(() => {
     // fechando o modal ao clicar fora
@@ -392,7 +382,7 @@ const QuickViewModal = () => {
               <div className="flex flex-wrap items-center gap-4">
                 <button
                   disabled={quantity === 0}
-                  onClick={() => handleAddToCart()}
+                  onClick={() => handleAddToCart(product)}
                   className={`inline-flex font-medium text-white bg-primary py-3 px-7 rounded-md ease-out duration-200 hover:bg-primary-dark
                   ${quantity === 0 ? "opacity-50 cursor-not-allowed" : ""}`}
                 >

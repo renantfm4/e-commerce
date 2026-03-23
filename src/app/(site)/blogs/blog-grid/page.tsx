@@ -1,10 +1,13 @@
 import React from "react";
 import BlogGrid from "@/components/BlogGrid";
+import shopConfig from "@/constants/shop.config.json";
+
+const shopName = shopConfig.shopName;
 
 import { Metadata } from "next";
 export const metadata: Metadata = {
-  title: "Blog Grid Page | NextCommerce Nextjs E-commerce template",
-  description: "This is Blog Grid Page for NextCommerce Template",
+  title: `${shopName} | Grade de Blogs`,
+  description: `Esta é a página da grade de blogs para o template ${shopName}`,
   // other metadata
 };
 
