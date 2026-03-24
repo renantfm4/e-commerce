@@ -9,4 +9,5 @@ export type Product = {
     thumbnails: string[];
     previews: string[];
   };
+  description?: string;
 };

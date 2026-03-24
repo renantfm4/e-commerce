@@ -1,19 +1,24 @@
 "use client";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { useCallback, useRef, useEffect } from "react";
-import { useRouter } from "next/navigation"; 
+import { useRouter } from "next/navigation";
 import data from "./categoryData";
-import Image from "next/image";
 import { useCategoryFilter } from "@/app/context/CategoryFilterContext";
+import type { Swiper as SwiperType } from "swiper";
 
 import "swiper/css/navigation";
 import "swiper/css";
 import SingleItem from "./SingleItem";
 
 const Categories = () => {
-  const sliderRef = useRef(null);
-  const router = useRouter(); 
-  const { addCategories } = useCategoryFilter();
+  const sliderRef = useRef<{ swiper: SwiperType } | null>(null);
+  const router = useRouter();
+
+  const {
+    setPendingCategories,
+    setSelectedCategories,
+    setHeaderCategoryValue,
+  } = useCategoryFilter();
 
   const handlePrev = useCallback(() => {
     if (!sliderRef.current) return;
@@ -26,21 +31,24 @@ const Categories = () => {
   }, []);
 
   useEffect(() => {
-    if (sliderRef.current) {
+    if (sliderRef.current?.swiper) {
       sliderRef.current.swiper.init();
     }
   }, []);
 
   const handleCategoryClick = (categories: string[]) => {
-    addCategories(categories);
-    router.push("/shop-with-sidebar"); 
+    if (!categories.length) return;
+
+    setSelectedCategories([]);
+    setPendingCategories(categories);
+    setHeaderCategoryValue(categories[0]);
+    router.push("/shop-with-sidebar");
   };
 
   return (
     <section className="overflow-hidden pt-17.5">
       <div className="max-w-[1170px] w-full mx-auto px-4 sm:px-8 xl:px-0 pb-15 border-b border-gray-3">
         <div className="swiper categories-carousel common-carousel">
-          {/* <!-- título da seção --> */}
           <div className="mb-10 flex items-center justify-between">
             <div>
               <span className="flex items-center gap-2.5 font-medium text-dark mb-1.5">
@@ -135,8 +143,8 @@ const Categories = () => {
           >
             {data.map((item, key) => (
               <SwiperSlide key={key}>
-                 <SingleItem 
-                  item={item} 
+                <SingleItem
+                  item={item}
                   onClick={() => handleCategoryClick(item.categories)}
                 />
               </SwiperSlide>

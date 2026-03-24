@@ -4,9 +4,6 @@ import React from "react";
 import Breadcrumb from "../Common/Breadcrumb";
 import CustomSelect from "./CustomSelect";
 import CategoryDropdown from "./CategoryDropdown";
-import GenderDropdown from "./GenderDropdown";
-import SizeDropdown from "./SizeDropdown";
-import ColorsDropdwon from "./ColorsDropdwon";
 import PriceDropdown from "./PriceDropdown";
 import SingleGridItem from "../Shop/SingleGridItem";
 import SingleListItem from "../Shop/SingleListItem";
@@ -28,6 +25,7 @@ const ShopWithSidebar = () => {
     toggleSidebar,
     toggleCategory,
     clearAllFilters,
+    searchTerm,
   } = useShopWithSidebar();
 
   return (
@@ -100,10 +98,6 @@ const ShopWithSidebar = () => {
                     onCategoryChange={toggleCategory}
                   />
 
-                  {/* <GenderDropdown genders={genders} /> */}
-                  {/* <SizeDropdown /> */}
-                  {/* <ColorsDropdwon /> */}
-
                   <PriceDropdown
                     value={selectedPrice}
                     onChange={setSelectedPrice}
@@ -125,6 +119,15 @@ const ShopWithSidebar = () => {
                       </span>{" "}
                       Produtos
                     </p>
+
+                    {searchTerm.trim() && (
+                      <p className="text-sm text-dark-4">
+                        Busca por:{" "}
+                        <span className="font-medium text-dark">
+                          "{searchTerm}"
+                        </span>
+                      </p>
+                    )}
                   </div>
 
                   <div className="flex items-center gap-2.5">
@@ -183,21 +186,32 @@ const ShopWithSidebar = () => {
                 </div>
               </div>
 
-              <div
-                className={`${
-                  productStyle === "grid"
-                    ? "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-7.5 gap-y-9"
-                    : "flex flex-col gap-7.5"
-                }`}
-              >
-                {filteredProducts.map((item, key) =>
-                  productStyle === "grid" ? (
-                    <SingleGridItem item={item} key={key} />
-                  ) : (
-                    <SingleListItem item={item} key={key} />
-                  )
-                )}
-              </div>
+              {filteredProducts.length > 0 ? (
+                <div
+                  className={`${
+                    productStyle === "grid"
+                      ? "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-7.5 gap-y-9"
+                      : "flex flex-col gap-7.5"
+                  }`}
+                >
+                  {filteredProducts.map((item, key) =>
+                    productStyle === "grid" ? (
+                      <SingleGridItem item={item} key={key} />
+                    ) : (
+                      <SingleListItem item={item} key={key} />
+                    ),
+                  )}
+                </div>
+              ) : (
+                <div className="rounded-lg bg-white shadow-1 px-6 py-12 text-center">
+                  <h3 className="text-xl font-semibold text-dark mb-2">
+                    Nenhum item correspondente encontrado
+                  </h3>
+                  <p className="text-dark-4">
+                    Tente buscar por outro nome ou ajuste os filtros.
+                  </p>
+                </div>
+              )}
 
               <div className="flex justify-center mt-15">
                 <div className="bg-white shadow-1 rounded-md p-2">

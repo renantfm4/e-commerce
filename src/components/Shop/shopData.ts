@@ -145,6 +145,24 @@ const shopData: Product[] = [
       ],
     },
   },
+  {
+    title: "Fone de Ouvido True Wireless com Cancelamento de Ruído",
+    reviews: 15,
+    price: 159.0,
+    discountedPrice: 119.0,
+    id: 9,
+    category: "Fone",
+    imgs: {
+      thumbnails: [
+        "/images/hero/hero-01.png",
+        "/images/hero/hero-01.png",
+      ],
+      previews: [
+        "/images/hero/hero-01.png",
+        "/images/hero/hero-01.png",
+      ],
+    },
+  }
 ];
 
 export default shopData;

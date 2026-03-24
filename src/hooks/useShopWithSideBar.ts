@@ -20,6 +20,13 @@ export const SHOP_SORT_OPTIONS = [
   { label: "Produtos Antigos", value: "2" },
 ] as const;
 
+const normalizeText = (value: unknown) =>
+  String(value ?? "")
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .toLowerCase()
+    .trim();
+
 export const useShopWithSidebar = () => {
   const [productStyle, setProductStyle] = useState<"grid" | "list">("grid");
   const [productSidebar, setProductSidebar] = useState(false);
@@ -27,14 +34,22 @@ export const useShopWithSidebar = () => {
   const [selectedPrice, setSelectedPrice] =
     useState<PriceRange>(SHOP_DEFAULT_PRICE);
 
-  const { selectedCategories, setSelectedCategories } = useCategoryFilter();
+  const {
+    selectedCategories,
+    setSelectedCategories,
+    pendingCategories,
+    setPendingCategories,
+    setHeaderCategoryValue,
+    searchTerm,
+    setSearchTerm,
+  } = useCategoryFilter();
 
   const categories = useMemo(() => {
-    return Array.from(new Set(shopData.map((product) => product.category))).map(
+    return Array.from(new Set(shopData.map((product: any) => product.category))).map(
       (category) => ({
         name: category,
-        products: shopData.filter((p) => p.category === category).length,
-      })
+        products: shopData.filter((p: any) => p.category === category).length,
+      }),
     );
   }, []);
 
@@ -54,28 +69,58 @@ export const useShopWithSidebar = () => {
     setSelectedCategories((prev) =>
       prev.includes(categoryName)
         ? prev.filter((c) => c !== categoryName)
-        : [...prev, categoryName]
+        : [...prev, categoryName],
     );
   };
 
   const clearAllFilters = () => {
     setSelectedCategories([]);
     setSelectedPrice(SHOP_DEFAULT_PRICE);
+    setHeaderCategoryValue("");
+    setSearchTerm("");
   };
 
   const filteredProducts = useMemo(() => {
-    return shopData.filter((product) => {
+    const normalizedSearch = normalizeText(searchTerm);
+
+    return shopData.filter((product: any) => {
+      const productName = normalizeText(
+        product.title ?? product.name ?? product.productName ?? "",
+      );
+      const productCategory = normalizeText(product.category);
+      const productDescription = normalizeText(
+        product.description ?? product.details ?? product.summary ?? "",
+      );
+      const productTags = normalizeText(
+        Array.isArray(product.tags) ? product.tags.join(" ") : product.tags,
+      );
+
+      const productPrice = Number(product.price ?? 0);
+
       const matchesCategory =
         selectedCategories.length === 0 ||
         selectedCategories.includes(product.category);
 
       const matchesPrice =
-        product.price >= selectedPrice.from &&
-        product.price <= selectedPrice.to;
+        productPrice >= selectedPrice.from && productPrice <= selectedPrice.to;
 
-      return matchesCategory && matchesPrice;
+      const matchesSearch =
+        normalizedSearch === "" ||
+        productName.includes(normalizedSearch) ||
+        productCategory.includes(normalizedSearch) ||
+        productDescription.includes(normalizedSearch) ||
+        productTags.includes(normalizedSearch);
+
+      return matchesCategory && matchesPrice && matchesSearch;
     });
-  }, [selectedCategories, selectedPrice]);
+  }, [selectedCategories, selectedPrice, searchTerm]);
+
+  useEffect(() => {
+    if (pendingCategories.length > 0) {
+      setSelectedCategories(pendingCategories);
+      setPendingCategories([]);
+    }
+  }, [pendingCategories, setSelectedCategories, setPendingCategories]);
 
   useEffect(() => {
     window.addEventListener("scroll", handleStickyMenu);
@@ -96,13 +141,6 @@ export const useShopWithSidebar = () => {
     };
   }, [productSidebar]);
 
-  useEffect(() => {
-    return () => {
-      setSelectedCategories([]);
-      setSelectedPrice(SHOP_DEFAULT_PRICE);
-    };
-  }, [setSelectedCategories]);
-
   return {
     productStyle,
     setProductStyle,
@@ -118,5 +156,6 @@ export const useShopWithSidebar = () => {
     toggleSidebar,
     toggleCategory,
     clearAllFilters,
+    searchTerm,
   };
 };
