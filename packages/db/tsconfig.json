@@ -1,0 +1,18 @@
+{
+  "compilerOptions": {
+    "target": "ESNext",
+    "module": "ESNext",
+    "moduleResolution": "Bundler", 
+    "lib": ["ESNext"],
+    "strict": true,
+    "declaration": true,
+    "skipLibCheck": true,
+    "types": ["node"],
+    "allowImportingTsExtensions": true,
+    "noEmit": true,
+    "paths": {
+      "@prisma/client": ["../../node_modules/.pnpm/@prisma+client@6.19.3_prisma@6.19.3/node_modules/@prisma/client"]
+    }
+  },
+  "include": ["index.ts"]
+}
