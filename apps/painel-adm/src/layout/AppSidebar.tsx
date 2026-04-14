@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useRef, useState,useCallback } from "react";
+import React, { useEffect, useRef, useState, useCallback } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
@@ -34,31 +34,36 @@ const navItems: NavItem[] = [
   },
   {
     icon: <CalenderIcon />,
-    name: "Calendar",
+    name: "Calendário",
     path: "/calendar",
   },
   {
     icon: <UserCircleIcon />,
-    name: "User Profile",
+    name: "Perfil do Usuário",
     path: "/profile",
+  },
+    {
+    name: "Produtos",
+    icon: <TableIcon />,
+    path: "/products",
   },
 
   {
-    name: "Forms",
+    name: "Formulários",
     icon: <ListIcon />,
-    subItems: [{ name: "Form Elements", path: "/form-elements", pro: false }],
+    subItems: [{ name: "Elementos de Formulário", path: "/form-elements", pro: false }],
   },
   {
-    name: "Tables",
+    name: "Tabelas",
     icon: <TableIcon />,
-    subItems: [{ name: "Basic Tables", path: "/basic-tables", pro: false }],
+    subItems: [{ name: "Tabelas Básicas", path: "/basic-tables", pro: false }],
   },
   {
-    name: "Pages",
+    name: "Páginas",
     icon: <PageIcon />,
     subItems: [
-      { name: "Blank Page", path: "/blank", pro: false },
-      { name: "404 Error", path: "/error-404", pro: false },
+      { name: "Página em Branco", path: "/blank", pro: false },
+      { name: "Erro 404", path: "/error-404", pro: false },
     ],
   },
 ];
@@ -66,30 +71,30 @@ const navItems: NavItem[] = [
 const othersItems: NavItem[] = [
   {
     icon: <PieChartIcon />,
-    name: "Charts",
+    name: "Gráficos",
     subItems: [
-      { name: "Line Chart", path: "/line-chart", pro: false },
-      { name: "Bar Chart", path: "/bar-chart", pro: false },
+      { name: "Gráfico de Linha", path: "/line-chart", pro: false },
+      { name: "Gráfico de Barra", path: "/bar-chart", pro: false },
     ],
   },
   {
     icon: <BoxCubeIcon />,
-    name: "UI Elements",
+    name: "Elementos de UI",
     subItems: [
-      { name: "Alerts", path: "/alerts", pro: false },
+      { name: "Alertas", path: "/alerts", pro: false },
       { name: "Avatar", path: "/avatars", pro: false },
-      { name: "Badge", path: "/badge", pro: false },
-      { name: "Buttons", path: "/buttons", pro: false },
-      { name: "Images", path: "/images", pro: false },
-      { name: "Videos", path: "/videos", pro: false },
+      { name: "Distintivos", path: "/badge", pro: false },
+      { name: "Botões", path: "/buttons", pro: false },
+      { name: "Imagens", path: "/images", pro: false },
+      { name: "Vídeos", path: "/videos", pro: false },
     ],
   },
   {
     icon: <PlugInIcon />,
-    name: "Authentication",
+    name: "Autenticação",
     subItems: [
-      { name: "Sign In", path: "/signin", pro: false },
-      { name: "Sign Up", path: "/signup", pro: false },
+      { name: "Entrar", path: "/signin", pro: false },
+      { name: "Cadastrar", path: "/signup", pro: false },
     ],
   },
 ];
@@ -198,7 +203,7 @@ const AppSidebar: React.FC = () => {
                                 : "menu-dropdown-badge-inactive"
                             } menu-dropdown-badge `}
                           >
-                            new
+                            novo
                           </span>
                         )}
                         {subItem.pro && (
@@ -233,11 +238,9 @@ const AppSidebar: React.FC = () => {
   );
   const subMenuRefs = useRef<Record<string, HTMLDivElement | null>>({});
 
-  // const isActive = (path: string) => path === pathname;
-   const isActive = useCallback((path: string) => path === pathname, [pathname]);
+  const isActive = useCallback((path: string) => path === pathname, [pathname]);
 
   useEffect(() => {
-    // Check if the current path matches any submenu item
     let submenuMatched = false;
     ["main", "others"].forEach((menuType) => {
       const items = menuType === "main" ? navItems : othersItems;
@@ -256,14 +259,12 @@ const AppSidebar: React.FC = () => {
       });
     });
 
-    // If no submenu item matches, close the open submenu
     if (!submenuMatched) {
       setOpenSubmenu(null);
     }
-  }, [pathname,isActive]);
+  }, [pathname, isActive]);
 
   useEffect(() => {
-    // Set the height of the submenu items when the submenu is opened
     if (openSubmenu !== null) {
       const key = `${openSubmenu.type}-${openSubmenu.index}`;
       if (subMenuRefs.current[key]) {
@@ -348,7 +349,7 @@ const AppSidebar: React.FC = () => {
                 }`}
               >
                 {isExpanded || isHovered || isMobileOpen ? (
-                  "Menu"
+                  "Menu Principal"
                 ) : (
                   <HorizontaLDots />
                 )}
@@ -365,7 +366,7 @@ const AppSidebar: React.FC = () => {
                 }`}
               >
                 {isExpanded || isHovered || isMobileOpen ? (
-                  "Others"
+                  "Outros"
                 ) : (
                   <HorizontaLDots />
                 )}
